@@ -1,0 +1,190 @@
+// .comments -> ova class-a ce da drzi sve comments-holder, pa cemo tada sa .comment-holder style
+// u vidu padding-a, border-a, background-a pokupiti stilove
+
+.comments-container {
+  padding: $box-padding;
+  background: $white;
+  border-radius: $border-radius;
+
+  @include breakpoint-up(medium) {
+    padding: 24px 30px;
+  }
+}
+
+.comment-holder {
+  position: relative;
+  overflow: hidden;
+  padding: 30px 0;
+
+  &:not(:last-child) {
+    border-bottom: 2px solid $lt-grey;
+  }
+
+  &.has-replies {
+    &::before {
+      @include breakpoint-up(medium) {
+        content: '';
+        position: absolute;
+        left: 20px;
+        top: 100px;
+        width: 2px;
+        height: calc(100% - 124px);
+        background: $lt-grey;
+      }
+    }
+  }
+
+  > .comment {
+    &:not(:last-child) {
+      margin-bottom: 40px;
+    }
+  }
+
+  .comment {
+    position: relative;
+
+    @include breakpoint-up(medium) {
+      padding-left: 85px;
+    }
+
+    &-user-reply {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+
+      .user-pic {
+        @include breakpoint-up(medium) {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+
+        img {
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+        }
+      }
+  
+      .user-info-reply {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+
+        .btn-reply {
+          color: $sea-blue;
+          font-weight: 600;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .content-reply {
+      color: $purple;
+      font-weight: 600;
+    }
+
+    &-add-reply {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 20px;
+
+      .form-group {
+        flex: 1;
+      }
+
+      @include breakpoint-up(medium) {
+        flex-direction: row;
+        gap: 20px;
+      }
+
+      &-post {
+        @include breakpoint-up(medium) {
+          flex: 0 0 120px;
+        }
+      }
+    }
+  }
+
+  .comments-sub {
+    position: relative;
+    padding-left: 24px;
+    margin-top: 30px;
+
+    @include breakpoint-up(medium) {
+      padding-left: 70px;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 0;
+      width: 2px;
+      height: calc(100% - 24px);
+      background: $lt-grey;
+
+      @include breakpoint-up(medium) {
+        display: none;
+      }
+    }
+
+    .comment {
+      &:not(:last-child) {
+        margin-bottom: 30px;
+      }
+
+      &:last-child {
+        &::before {
+          content: "";
+          position: absolute;
+          top: 24px;
+          left: -24px;
+          width: 10px;
+          height: 100%;
+          background: #ffffff;
+          z-index: 1;
+
+          @include breakpoint-up(medium) {
+            left: -60px;
+            width: 30px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.comment-add {
+  padding: $box-padding;
+  background: $white;
+  border-radius: $border-radius;
+
+  @include breakpoint-up(medium) {
+    padding: 24px 30px;
+  }
+
+  form {
+    margin-top: 20px;
+  }
+
+  .form-group + div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+
+    @include breakpoint-up(medium) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0;
+    }
+  }
+}

@@ -1,0 +1,71 @@
+.add-edit-modal {
+  .modal-content {
+    max-width: 540px !important;
+
+    .modal-header {
+      margin-bottom: 50px;
+    }
+
+    .modal-body {
+      position: relative;
+      background: $white;
+      border-radius: 10px;
+      padding: 40px 20px;
+
+      @include breakpoint-up(medium) {
+        padding: 40px;
+      }
+
+      > img {
+        position: absolute;
+        top: -25px;
+        left: 40px;
+        width: 50px;
+        height: 50px;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      .form-group {
+        
+        &:not(:last-child) {
+          margin-bottom: 25px;
+        }
+  
+        p {
+          margin: 5px 0;
+        }
+      }
+
+      .modal-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        @include breakpoint-up(medium) {
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 0;
+
+          &.modal-actions-edit {
+            justify-content: space-between;
+          }
+        }
+
+        > div {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          
+          @include breakpoint-up(medium) {
+            flex-direction: row;
+            align-items: center;
+          }
+        }
+      }
+    }
+  }
+}

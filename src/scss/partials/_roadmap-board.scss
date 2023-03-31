@@ -1,0 +1,54 @@
+.roadmap-board-holder {
+    display: none;
+    background: $white;
+    padding: $box-padding;
+    border-radius: $border-radius;
+
+    @include breakpoint-up(medium) {
+        display: block;
+    }
+
+    .holder-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 24px;
+
+        .btn-roadmap-view {
+            font-size: 14px;
+            color: $sea-blue;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+    }
+
+    .holder-body {
+        .roadmap-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            > div {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .list-item-color {
+                    display: inline-block;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 10px;
+                }
+    
+                .list-item-name {
+                    text-transform: capitalize;
+                }
+            }
+
+            .list-item-value {
+                font-size: 18px;
+                font-weight: 600;
+            }
+        }
+    }
+}

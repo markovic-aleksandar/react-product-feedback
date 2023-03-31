@@ -1,0 +1,90 @@
+.select {
+  position: relative;
+  width: 100%;
+  
+  &-input {
+    position: relative;
+    background: $lt-grey;
+    padding: 12px 20px;
+    text-transform: capitalize;
+    border-radius: $border-radius;
+    border: 1px solid transparent;
+    user-select: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      border-color: $sea-blue;
+    }
+
+    svg {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      transition: transform 0.3s ease-in-out;
+
+      path {
+        color: $white;
+      }
+    }
+  }
+
+  &-options {
+    position: absolute;
+    width: 100%;
+    background: $white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+    transition: opacity 0.3s ease-in-out;
+    .option {
+      position: relative;
+      width: 100%;
+      padding: 12px 20px;
+      text-transform: capitalize;
+      cursor: pointer;
+      transition: color 0.2s ease-in-out;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid $lt-grey;
+      }
+
+      &:hover {
+        color: $purple;
+      }
+      
+      .check-icon {
+        display: none;
+        position: absolute;
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
+        
+        path {
+          stroke: $purple !important;
+          stroke-width: 3px;
+        }
+      }
+
+      &.active {
+        .check-icon {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &.open {
+    .select-input svg {
+      transform: translateY(-50%) rotate(180deg);
+    }
+
+    .select-options {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  }
+}

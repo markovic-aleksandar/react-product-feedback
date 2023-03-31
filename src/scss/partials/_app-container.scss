@@ -1,0 +1,49 @@
+.app-container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 20px 50px;
+    display: flex;
+    flex-direction: column;
+
+    @include breakpoint-up(medium) {
+        padding: $main-padding;
+    }
+
+    @include breakpoint-up(large) {
+        flex-direction: row;
+    }
+
+    &-side {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 30px;
+
+        @include breakpoint-up(medium) {
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        @include breakpoint-up(large) {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            grid-template-columns: unset;
+            flex: 0 0 30%;
+            max-width: 30%;
+            padding: 0 20px;
+            margin-bottom: 0;
+        }
+    }
+
+    &-main {
+        flex: 1;
+
+        @include breakpoint-up(large) {
+            flex: 0 0 70%;
+            max-width: 70%;
+            padding: 0 20px;
+        }
+    }
+}

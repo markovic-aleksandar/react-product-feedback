@@ -1,0 +1,36 @@
+.gradient-board-holder {
+    padding: $box-padding-mobile;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 -20px;
+
+    @include breakpoint-up(medium) {
+        padding: $box-padding;
+        margin: 0;
+        border-radius: $border-radius;
+        align-items: flex-end;
+        justify-content: flex-start;
+    }
+    
+    @include breakpoint-up(large) {
+        height: 140px;
+    }
+
+    h2 {
+        color: $white;
+    }
+
+    p {
+        color: $lt-grey;
+    }
+
+    .mobile-toggle {
+        
+        @include breakpoint-up(medium) {
+            display: none;
+        }
+    }
+}

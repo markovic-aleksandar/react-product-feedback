@@ -1,0 +1,144 @@
+.feedbacks-container {
+    margin-top: 30px;
+
+    .empty-content-illustration {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        gap: 30px;
+        background: $white;
+        padding: 40px;
+        border-radius: $border-radius;
+
+        p {
+            max-width: 500px;
+            text-align: center;
+        }
+    }
+    .feedback-holder {
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: border 0.2s ease-in-out;
+
+        &:hover {
+            border-color: $purple;
+        }
+    }
+}
+
+.feedback-holder {
+    position: relative;
+    padding: $box-padding;
+    background: $white;
+    border-radius: $border-radius;
+    margin-top: 30px;
+
+    @include breakpoint-up(medium) {
+        padding: 24px 85px 24px 115px;
+    }
+
+    .holder-content {
+        p {
+            margin: 10px 0 15px;
+        }
+    }
+
+    .holder-manage {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 25px;
+
+        @include breakpoint-up(medium) {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 100%;
+            margin-top: 0;
+        }
+
+        .vote-btn, .comment-count {
+            color: $v-dk-blue;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            @include breakpoint-up(medium) {
+                position: absolute;
+            }
+        }
+
+        .vote-btn {
+            @include breakpoint-up(medium) {
+                width: 40px;
+                left: 30px;
+                padding: 10px;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+
+        .comment-count {
+            @include breakpoint-up(medium) {
+                right: 30px;
+            }
+        }
+    }
+
+    &.feedback-holder-status {
+        padding: $box-padding;
+
+        @include breakpoint-up(medium) {
+            padding: 24px 30px;
+        }
+
+        .holder-content {
+            .status-line {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 6px;
+                border-radius: $border-radius;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+                background: $orange;
+            }
+
+            .status-color {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                margin: 0 10px 2px 0;
+                border-radius: 50%;
+                background: $orange;
+            }
+        }
+
+        .holder-manage {
+            margin-top: 20px;
+
+            @include breakpoint-up(medium) {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none;
+            }
+
+            .vote-btn, .comment-count {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 7px;
+                @include breakpoint-up(medium) {
+                    position: relative;
+                    left: 0;
+                    right: 0;
+                }
+            }
+        }
+    }
+}
