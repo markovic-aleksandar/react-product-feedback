@@ -1,0 +1,19 @@
+.single-feedback-container {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding-top: 30px;
+  margin: 0 auto;
+
+  @include breakpoint-up(medium) {
+    padding-top: 0;
+  }
+
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

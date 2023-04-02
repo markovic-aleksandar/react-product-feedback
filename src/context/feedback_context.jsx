@@ -17,21 +17,15 @@ const initState = {
   statuses: [
     {
       name: 'planned',
-      label: 'Planned',
-      value: 0,
-      color: '#f49f85'
+      items: []
     },
     {
       name: 'in-progress',
-      label: 'In-Progress',
-      value: 0,
-      color: '#ad1fea'
+      items: []
     },
     {
       name: 'live',
-      label: 'Live',
-      value: 0,
-      color: '#62befa'
+      items: []
     }
   ]
 }

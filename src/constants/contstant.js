@@ -1,12 +1,3 @@
-// const categories = [
-//   'all',
-//   'ui',
-//   'ux',
-//   'enhancement',
-//   'bug',
-//   'feature'
-// ];
-
 const categories = [
   {
     id: 1,
@@ -38,10 +29,32 @@ const categories = [
     name: 'feature',
     label: 'Feature'
   }
-]
+];
+
+const feedbackStatuses = [
+  {
+    name: 'planned',
+    label: 'Planned',
+    desc: 'Ideas prioritized for research',
+    color: '#f49f85'
+  },
+  {
+    name: 'in-progress',
+    label: 'In-Progress',
+    desc: 'Currently being developed',
+    color: '#ad1fea'
+  },
+  {
+    name: 'live',
+    label: 'Live',
+    desc: 'Released features',
+    color: '#62befa'
+  }
+];
 
 
 
 export default {
-  categories
+  categories,
+  feedbackStatuses
 }

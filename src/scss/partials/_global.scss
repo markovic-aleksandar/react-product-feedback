@@ -106,6 +106,8 @@ background: $red;
 }
 
 .btn-back {
+    display: flex;
+    align-items: center;
     font-weight: 600;
     color: $grey;
     &:hover {

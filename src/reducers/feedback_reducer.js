@@ -25,16 +25,16 @@ const feedback_reducer = (state, action) => {
   if (action.type === actions.UPDATE_STATUSES) {
     let {statuses, feedbacks} = state;
     const availableStatuses = feedbacks.reduce((total, item) => {
-      let {status} = item;
+      const {status} = item;
       if (status !== 'suggestion') {
-        total = {...total, [status]: total[status] + 1};
+        total = {...total, [status]: [...total[status], item]};
       } 
       return total;
-    }, {planned: 0, ['in-progress']: 0, live: 0});
+    }, {planned: [], ['in-progress']: [], live: []});
 
     statuses = statuses.map(status => {
       const {name} = status;
-      return {...status, value: availableStatuses[name]}
+      return {...status, items: availableStatuses[name]}
     });
 
     return {...state, statuses};

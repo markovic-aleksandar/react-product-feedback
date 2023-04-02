@@ -1,11 +1,21 @@
 import { HiChevronUp } from 'react-icons/hi';
 import { icons } from '../constants';
 
-const Feedback = ({id, title, category, upvotes, description, comments}) => {
+const Feedback = ({id, title, category, status, upvotes, description, comments, statusColor, handleFeedbackAction}) => {
   
   return (
-    <article className="feedback-holder">
+    <article 
+      className={`feedback-holder${statusColor ? ' feedback-holder-status' : ''}`}
+      onClick={() => handleFeedbackAction ? handleFeedbackAction(id) : null}
+    >
       <div className="holder-content">
+        {statusColor && <>
+          <div className="status-line" style={{background: statusColor}}></div>
+          <p>
+            <span className="status-color" style={{background: statusColor}}></span>
+            {status}
+          </p>
+        </>}
         <h3>{title}</h3>
         <p>{description}</p>
         <span className="flag">{category}</span>

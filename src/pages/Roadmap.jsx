@@ -1,6 +1,13 @@
+import { RoadmapHeader, RoadmapFeedbacks } from '../components';
+
 const Roadmap = () => {
   return (
-    <div>Roadmap</div>
+    <div className="roadmap-container">
+      <div className="modal-content">
+        <RoadmapHeader />
+        <RoadmapFeedbacks />
+      </div>
+    </div>
   )
 }
 
