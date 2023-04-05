@@ -2,6 +2,8 @@ import * as actions from '../actions/feedback_action';
 import { getFeedbacksByStatus } from '../utils';
 
 const feedback_reducer = (state, action) => {
+  console.log('reducerrr');
+
   if (action.type === actions.FETCH_BEGIN) {
     return {...state, feedbacksLoading: true};
   }
@@ -80,6 +82,73 @@ const feedback_reducer = (state, action) => {
     }
 
     return {...state, suggestedFeedbacks: sortedFeedbacks};
+  }
+
+  if (action.type === actions.ADD_REPLY_COMMENT) {
+    const {
+      feedbackId,
+      parentId,
+      content,
+      replyingTo,
+      commentId,
+      currentUser
+    } = action.payload;
+
+    const commentObj = {
+      id: commentId,
+      parentId,
+      content,
+      replyingTo,
+      user: currentUser
+    };
+    
+    const tempFeedbacks = state.feedbacks.map(feedback => {
+      if (feedback.id === parseInt(feedbackId)) {
+        const comments = feedback.comments.map(comment => {
+          if (comment.id === parentId) {
+            const replies = comment.replies ? [...comment.replies, {...commentObj}] : [{...commentObj}];
+            return {...comment, replies};
+          }
+          return comment;
+        });
+        return {...feedback, comments};
+      }
+      return feedback;
+    });
+
+    return {...state, feedbacks: tempFeedbacks};
+  }
+
+  if (action.type === actions.ADD_COMMENT) {
+    // const {
+    //   feedbackId,
+    //   parentId,
+    //   content,
+    //   // replyingTo,
+    //   commentId,
+    //   currentUser
+    // } = action.payload;
+
+    const commentObj = {
+      id: 110,
+      // parentId,
+      content: 'Probaaaaa',
+      // replyingTo,
+      user: {
+        image: 'image-user',
+        name: 'John Doe',
+        username: 'john.doe'
+      }
+    };
+
+    const tempFeedbacks = state.feedbacks.map(feedback => {
+      if (feedback.id === 2) {
+        return {...feedback, comments: [...feedback.comments, {...commentObj}]};
+      }
+      return feedback;
+    });
+
+    return {...state, feedbacks: tempFeedbacks};
   }
 
   throw new Error('Unknown action');

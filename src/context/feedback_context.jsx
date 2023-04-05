@@ -1,5 +1,7 @@
-import { useEffect, createContext, useContext, useReducer } from 'react';
+import { useEffect, createContext, useContext, useReducer, useCallback } from 'react';
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
+import { useUserContext } from './user_context';
 import feedback_reducer from '../reducers/feedback_reducer';
 import * as actions from '../actions/feedback_action';
 
@@ -32,7 +34,8 @@ const initState = {
 
 const FeedbackProvider = ({children}) => {
   const [state, dispatch] = useReducer(feedback_reducer, initState);
-  
+  const {currentUser} = useUserContext();  
+
   // get feedbacks from api
   const fetchFeedback = async url => {
     dispatch({type: actions.FETCH_BEGIN});
@@ -58,11 +61,27 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.UPDATE_SORT, payload: status});
   }
 
+  // add reply comment
+  const addReplyComment = commentInfo => { 
+          
+    const commentId = uuidv4();
+    dispatch({type: actions.ADD_REPLY_COMMENT, payload: {
+      ...commentInfo,
+      currentUser,
+      commentId
+    }});
+    // dispatch({type: actions.ADD_REPLY_COMMENT});
+  }
+
+  const addComment = () => {
+    dispatch({type: actions.ADD_COMMENT});
+  }
+
   useEffect(() => {
     fetchFeedback(API_URL);
   }, []);
 
-  useEffect(() => {
+  useEffect(() => {    
     dispatch({type: actions.UPDATE_STATUSES});
     dispatch({type: actions.FILTER_FEEDBACKS});
     dispatch({type: actions.SORT_FEEDBACKS});
@@ -72,7 +91,9 @@ const FeedbackProvider = ({children}) => {
     <FeedbackContext.Provider value={{
       ...state,
       updateFilter,
-      updateSort
+      updateSort,
+      addReplyComment,
+      addComment
     }}>
       {children}
     </FeedbackContext.Provider>
@@ -83,4 +104,4 @@ const useFeedbackContext = () => {
   return useContext(FeedbackContext);
 }
 
-export { FeedbackProvider, useFeedbackContext }
+export { FeedbackProvider, useFeedbackContext };

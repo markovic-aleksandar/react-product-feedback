@@ -1,4 +1,7 @@
+import { useFeedbackContext } from "../../context/feedback_context";
+
 const AddComment = () => {
+  const {addComment} = useFeedbackContext();
   return (
     <div className="comment-add">
       <h3>Add Comment</h3>
@@ -11,7 +14,7 @@ const AddComment = () => {
           <p className="comment-char-left">
             250 Characters Left
           </p>
-          <button type="button" className="btn btn-purple">Post Comment</button>
+          <button type="button" className="btn btn-purple" onClick={addComment}>Post Comment</button>
         </div>
       </form>
     </div>
