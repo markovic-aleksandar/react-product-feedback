@@ -62,19 +62,15 @@ const FeedbackProvider = ({children}) => {
   }
 
   // add reply comment
-  const addReplyComment = commentInfo => { 
-          
+  const addReplyComment = commentInfo => {       
     const commentId = uuidv4();
-    dispatch({type: actions.ADD_REPLY_COMMENT, payload: {
-      ...commentInfo,
-      currentUser,
-      commentId
-    }});
-    // dispatch({type: actions.ADD_REPLY_COMMENT});
+    dispatch({type: actions.ADD_REPLY_COMMENT, payload: {...commentInfo, commentId, currentUser}});
   }
 
-  const addComment = () => {
-    dispatch({type: actions.ADD_COMMENT});
+  // add comment
+  const addComment = commentInfo => {
+    const commentId = uuidv4();
+    dispatch({type: actions.ADD_COMMENT, payload: {...commentInfo, commentId, currentUser}});
   }
 
   useEffect(() => {

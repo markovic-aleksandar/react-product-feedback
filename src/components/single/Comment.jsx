@@ -30,7 +30,7 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
         replyingTo: username
       };
       addReplyComment(commentInfo);
-      // addReplyComment();
+      setCommentReply(false);
     }
   }
 
@@ -79,7 +79,6 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
             type="button" 
             className="btn btn-purple"
             onClick={postReplyComment}
-            // onClick={addReplyComment}
           >Post Reply</button>
         </div>
       </div>}

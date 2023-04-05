@@ -24,7 +24,6 @@ export const validateInputData = data => {
   let errors = 0;
   let dataItems = {...data};
   for (const dataItem in dataItems) {
-    // const {value} = dataItems[dataItem];
     if (!dataItems[dataItem].value) {
       errors ++;
       dataItems = {...dataItems, [dataItem]: {...dataItems[dataItem], error: true}};

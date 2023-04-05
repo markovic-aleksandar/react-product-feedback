@@ -12,7 +12,7 @@ const SingleBody = ({currentID}) => {
     <>
       <Feedback {...currentFeedback} />
       <Comments feedbackId={currentID} comments={comments} />
-      <AddComment />
+      <AddComment feedbackId={currentID} />
     </>
   )
 }

@@ -2,7 +2,6 @@ import * as actions from '../actions/feedback_action';
 import { getFeedbacksByStatus } from '../utils';
 
 const feedback_reducer = (state, action) => {
-  console.log('reducerrr');
 
   if (action.type === actions.FETCH_BEGIN) {
     return {...state, feedbacksLoading: true};
@@ -106,7 +105,7 @@ const feedback_reducer = (state, action) => {
       if (feedback.id === parseInt(feedbackId)) {
         const comments = feedback.comments.map(comment => {
           if (comment.id === parentId) {
-            const replies = comment.replies ? [...comment.replies, {...commentObj}] : [{...commentObj}];
+            const replies = comment.replies ? [...comment.replies, commentObj] : [commentObj];
             return {...comment, replies};
           }
           return comment;
@@ -120,30 +119,24 @@ const feedback_reducer = (state, action) => {
   }
 
   if (action.type === actions.ADD_COMMENT) {
-    // const {
-    //   feedbackId,
-    //   parentId,
-    //   content,
-    //   // replyingTo,
-    //   commentId,
-    //   currentUser
-    // } = action.payload;
+    console.log(11);
+    const {
+      feedbackId,
+      content,
+      commentId,
+      currentUser
+    } = action.payload;
 
     const commentObj = {
-      id: 110,
-      // parentId,
-      content: 'Probaaaaa',
-      // replyingTo,
-      user: {
-        image: 'image-user',
-        name: 'John Doe',
-        username: 'john.doe'
-      }
+      id: commentId,
+      content,
+      user: currentUser
     };
 
     const tempFeedbacks = state.feedbacks.map(feedback => {
-      if (feedback.id === 2) {
-        return {...feedback, comments: [...feedback.comments, {...commentObj}]};
+      if (feedback.id === parseInt(feedbackId)) {
+        const comments = feedback.comments ? [...feedback.comments, commentObj] : [commentObj];
+        return {...feedback, comments};
       }
       return feedback;
     });
