@@ -1,23 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useFeedbackContext } from '../../context/feedback_context';
+import useValidate from '../../hooks/useValidate';
 import { getUserImages, validateInputData } from "../../utils";
 
 const Comment = ({id, parentId, content, user:{image, name, username}, replyingTo, feedbackId}) => {
   const [userImages, setUserImages] = useState(null);
   const [commentReply, setCommentReply] = useState(false);
-  const [inputData, setInputData] = useState({
-    reply: {
-      value: '',
-      error: ''
-    }
-  });
+  // const [inputData, setInputData] = useState({
+  //   reply: {
+  //     value: '',
+  //     error: ''
+  //   }
+  // });
   const {addReplyComment} = useFeedbackContext();
 
-  const handleInputValue = e => {
-    const name = e.currentTarget.name;
-    const value = e.currentTarget.value;
-    setInputData(prevData => ({...prevData, [name]: {...prevData[name], value}}));
-  }
+  const {inputData, handleDataValue, validateData} = useValidate({comment: {value: '', error: false}});
+
+  console.log(inputData);
+  
+
+  // const handleInputValue = e => {
+  //   const name = e.currentTarget.name;
+  //   const value = e.currentTarget.value;
+  //   setInputData(prevData => ({...prevData, [name]: {...prevData[name], value}}));
+  // }
 
   const postReplyComment = () => {
     const {dataItems, error} = validateInputData(inputData);
@@ -64,21 +70,24 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
         {content}
       </p>
       {commentReply && <div className="comment-add-reply">
-        <div className={`form-group${inputData.reply.error ? ' has-error' : ''}`}>
+        <div className={`form-group${inputData.comment.error ? ' has-error' : ''}`}>
           <textarea 
             name="reply"
             className="comment-add-reply-textarea form-control"
             placeholder="Type your reply here"
-            value={inputData.reply.value}
-            onChange={handleInputValue}  
+            // value={inputData.reply.value}
+            // onChange={handleInputValue}
+            value={inputData.comment.value}
+            onChange={handleDataValue}  
           ></textarea>
-          {inputData.reply.error && <span className="form-control-error">The field can't be empty!</span>}
+          {inputData.comment.error && <span className="form-control-error">The field can't be empty!</span>}
         </div>
         <div className="comment-add-reply-post">
           <button 
             type="button" 
             className="btn btn-purple"
-            onClick={postReplyComment}
+            // onClick={postReplyComment}
+            onClick={validateData}
           >Post Reply</button>
         </div>
       </div>}
