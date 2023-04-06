@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home, SingleFeedback, Roadmap } from './pages';
+import { Home, SingleFeedback, Roadmap, AddEditFeedback } from './pages';
 
 const App = () => {
   return (
@@ -9,6 +9,7 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="single/:id" element={<SingleFeedback />} />
           <Route path="roadmap" element={<Roadmap />} />
+          <Route path="add-edit/:id?" element={<AddEditFeedback />} />
         </Route>
       </Routes>
     </BrowserRouter>

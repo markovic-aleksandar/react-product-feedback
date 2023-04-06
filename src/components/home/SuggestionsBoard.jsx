@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import CustomSelect from '../CustomSelect';
 import { useFeedbackContext } from '../../context/feedback_context';
 import { icons } from '../../constants';
@@ -6,6 +7,7 @@ import { HiPlusSm } from 'react-icons/hi';
 const SuggestionsBoard = () => {
   const {suggestedFeedbacks, currentSort, updateSort} = useFeedbackContext();
   const selectOptions = ['Most Upvotes', 'Least Upvotes', 'Most Comments', 'Least Comments'];
+  const navigate = useNavigate();
 
   // handle click on option item
   const handleOptionClick = optionValue => {
@@ -29,7 +31,7 @@ const SuggestionsBoard = () => {
           />
         </div>
       </div>
-      <button type="button" className="btn btn-purple btn-icon">
+      <button type="button" className="btn btn-purple btn-icon" onClick={() => navigate('/add-edit')}>
         <HiPlusSm />
         Add Feedback
       </button>

@@ -8,6 +8,8 @@ import RoadmapHeader from './roadmap/RoadmapHeader';
 import RoadmapFeedbacks from './roadmap/RoadmapFeedbacks';
 import SingleHeader from './single/SingleHeader';
 import SingleBody from './single/SingleBody';
+import AddEditHeader from './add_edit/AddEditHeader';
+import AddEditBody from './add_edit/AddEditBody';
 
 export {
   Loading,
@@ -19,5 +21,7 @@ export {
   RoadmapHeader,
   RoadmapFeedbacks,
   SingleHeader,
-  SingleBody
+  SingleBody,
+  AddEditHeader,
+  AddEditBody
 }
