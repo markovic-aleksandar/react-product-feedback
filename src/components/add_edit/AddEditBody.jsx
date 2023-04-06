@@ -8,13 +8,14 @@ import useValidate from '../../hooks/useValidate';
 import { contstant, icons } from '../../constants';
 
 const AddEditBody = ({feedbackId, feedbacks}) => {
-  const initData = {
+  const initInputData = {
     title: {value: '', error: false},
     category: {value: '', error: false},
     detail: {value: '', error: false}
   };
-  const {inputData, handleDataValue, validateData} = useValidate(feedbackId ? {...initData, status: {value: '', error: false}} : initData);
+  const {inputData, handleDataValue, validateData} = useValidate(feedbackId ? {...initInputData, status: {value: '', error: false}} : initInputData);
   const categoryOptions = contstant.categories.map(category => category.label).filter(category => category !== 'All');
+  const statusOptions = contstant.feedbackStatuses.map(status => status.label);
   const currentFeedback = feedbackId ? feedbacks.find(feedback => feedback.id === parseInt(feedbackId)) : null;
 
   // ovo za rucno uneti feedback ces se pozivati na proveru "currentFeedback"
@@ -43,6 +44,14 @@ const AddEditBody = ({feedbackId, feedbacks}) => {
             currentOption={categoryOptions[0]}
           />
         </div>
+        {feedbackId && <div className="form-group">
+          <h4>Update Status</h4>
+          <p>Change feedback status</p>
+          <CustomSelect 
+            options={statusOptions}
+            currentOption={statusOptions[0]}
+          />
+        </div>}
         <div className="form-group">
           <h4>Feedback Detail</h4>
           <p>Include any specific comments on what should be improved, added, etc.</p>

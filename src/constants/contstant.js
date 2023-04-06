@@ -33,6 +33,12 @@ const categories = [
 
 const feedbackStatuses = [
   {
+    name: 'suggestion',
+    label: 'Suggestion',
+    desc: null,
+    color: null
+  },
+  {
     name: 'planned',
     label: 'Planned',
     desc: 'Ideas prioritized for research',
