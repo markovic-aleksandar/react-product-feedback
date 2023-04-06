@@ -1,38 +1,34 @@
-// potreban je bolji nacin validacije ovo ne valja
-// takodje bi valjalo da imas neku f-ju koja ce isparzniti sva state polja
-// (mozda bolje samo ona koja su koriscena), 
-// jer kod reply nije dobvoljno da zatvoris taj prozor ostaje vrednost
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useFeedbackContext } from "../../context/feedback_context";
-import { validateInputData } from '../../utils';
+import useValidate from '../../hooks/useValidate';
 
 const AddComment = ({feedbackId}) => {
-  const [inputData, setInputData] = useState({
-    comment: {
-      value: '',
-      error: false
-    }
-  });
+  const {inputData, handleDataValue, validateData, resetData} = useValidate({comment: {value: '', error: false}});
   const {addComment} = useFeedbackContext();
+  const [characterLeft, setCharacterLeft] = useState(0);
 
   const handleInputValue = e => {
-    const name = e.currentTarget.name;
-    const value = e.currentTarget.value;
-    setInputData(prevData => ({...prevData, [name]: {...prevData[name], value}}));
+    let value = e.target.value;
+
+    if (value.length >= 250) {
+      value = value.slice(0, 250);
+    }
+
+    handleDataValue(e, value);
   }
 
   const postComment = () => {
-    const {dataItems, error} = validateInputData(inputData);
-    setInputData(dataItems);
-    if (!error) {
-      const commentInfo = {
-        feedbackId,
-        content: inputData.comment.value
-      };
-      addComment(commentInfo);
-    }
+    const commentInfo = {
+      feedbackId,
+      content: inputData.comment.value
+    };
+    addComment(commentInfo);
+    resetData();
   }
+
+  useEffect(() => {
+    setCharacterLeft(inputData.comment.value.length);
+  }, [inputData.comment.value]);
   
   return (
     <div className="comment-add">
@@ -49,10 +45,16 @@ const AddComment = ({feedbackId}) => {
           {inputData.comment.error && <span className="form-control-error">The field can't be empty!</span>}
         </div>
         <div>
-          <p className="comment-char-left">
-            250 Characters Left
-          </p>
-          <button type="button" className="btn btn-purple" onClick={postComment}>Post Comment</button>
+          {characterLeft < 250 ? 
+            <p className="comment-char-left">
+              {250 - characterLeft} Characters Left
+            </p>
+            :  
+            <p className="comment-char-left limit">
+              Reached the character limit
+            </p>
+          }
+          <button type="button" className="btn btn-purple" onClick={() => validateData(postComment)}>Post Comment</button>
         </div>
       </form>
     </div>

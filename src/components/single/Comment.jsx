@@ -6,44 +6,27 @@ import { getUserImages, validateInputData } from "../../utils";
 const Comment = ({id, parentId, content, user:{image, name, username}, replyingTo, feedbackId}) => {
   const [userImages, setUserImages] = useState(null);
   const [commentReply, setCommentReply] = useState(false);
-  // const [inputData, setInputData] = useState({
-  //   reply: {
-  //     value: '',
-  //     error: ''
-  //   }
-  // });
   const {addReplyComment} = useFeedbackContext();
-
-  const {inputData, handleDataValue, validateData} = useValidate({comment: {value: '', error: false}});
-
-  console.log(inputData);
-  
-
-  // const handleInputValue = e => {
-  //   const name = e.currentTarget.name;
-  //   const value = e.currentTarget.value;
-  //   setInputData(prevData => ({...prevData, [name]: {...prevData[name], value}}));
-  // }
+  const {inputData, handleDataValue, validateData, resetData} = useValidate({comment: {value: '', error: false}});
 
   const postReplyComment = () => {
-    const {dataItems, error} = validateInputData(inputData);
-    setInputData(dataItems);
-    if (!error) {
-      const commentInfo = {
-        feedbackId,
-        parentId: parentId || id,
-        content: inputData.reply.value,
-        replyingTo: username
-      };
-      addReplyComment(commentInfo);
-      setCommentReply(false);
-    }
+    const commentInfo = {
+      feedbackId,
+      parentId: parentId || id,
+      content: inputData.comment.value,
+      replyingTo: username
+    };
+    addReplyComment(commentInfo);
+    setCommentReply(false);
+    resetData();
   }
 
   useEffect(() => {
     getUserImages(import.meta.glob('../../assets/user-images/*'))
     .then(response => setUserImages(response));
   }, []);
+
+  // console.log(inputData.comment.error);
 
   return (
     <div className="comment">
@@ -72,11 +55,9 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
       {commentReply && <div className="comment-add-reply">
         <div className={`form-group${inputData.comment.error ? ' has-error' : ''}`}>
           <textarea 
-            name="reply"
+            name="comment"
             className="comment-add-reply-textarea form-control"
             placeholder="Type your reply here"
-            // value={inputData.reply.value}
-            // onChange={handleInputValue}
             value={inputData.comment.value}
             onChange={handleDataValue}  
           ></textarea>
@@ -86,8 +67,7 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
           <button 
             type="button" 
             className="btn btn-purple"
-            // onClick={postReplyComment}
-            onClick={validateData}
+            onClick={() => validateData(postReplyComment)}
           >Post Reply</button>
         </div>
       </div>}
