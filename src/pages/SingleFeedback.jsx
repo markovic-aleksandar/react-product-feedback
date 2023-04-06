@@ -9,7 +9,7 @@ const SingleFeedback = () => {
 
   return (
     <div className="single-feedback-container">
-      <SingleHeader />
+      <SingleHeader currentID={id} />
       {feedbacksLoading ? (
         <Loading />
       ) : (

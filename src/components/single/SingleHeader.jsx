@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { HiChevronLeft } from 'react-icons/hi';
 
-const SingleHeader = () => {
-  const navigate = useNavigate('/');
+const SingleHeader = ({currentID}) => {
+  const navigate = useNavigate();
 
   return (
     <div className="header-container">
@@ -14,7 +14,11 @@ const SingleHeader = () => {
         <HiChevronLeft />
         Go Back
       </button>
-      <button type="button" className="btn btn-blue btn-icon">
+      <button 
+        type="button" 
+        className="btn btn-blue btn-icon"
+        onClick={() => navigate(`/add-edit/${currentID}`)}
+      >
         Edit Feedback
       </button>
     </div>
