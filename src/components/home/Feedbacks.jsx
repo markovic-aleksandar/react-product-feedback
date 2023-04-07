@@ -3,7 +3,6 @@ import Loading from '../Loading';
 import Feedback from '../Feedback';
 import NoFeedbacks from '../NoFeedbacks';
 import { useFeedbackContext } from '../../context/feedback_context';
-import { getFeedbacksByStatus } from '../../utils';
 
 const Feedbacks = () => {
   const {feedbacksLoading, suggestedFeedbacks} = useFeedbackContext();

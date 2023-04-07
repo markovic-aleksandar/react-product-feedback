@@ -1,47 +1,60 @@
-// *******************
-// treba da se proveri ako se rucno unese id koji ne postoji 
-// da pokaze gresku, ovo isto vazi i za single feedback stranu
-import { useState } from 'react';
 import AddEditAction from './AddEditAction';
 import CustomSelect from '../CustomSelect';
+import Message from '../Message';
 import useValidate from '../../hooks/useValidate';
 import { contstant, icons } from '../../constants';
 
 const AddEditBody = ({feedbackId, feedbacks}) => {
-  const initInputData = {
-    title: {value: '', error: false},
-    category: {value: '', error: false},
-    detail: {value: '', error: false}
-  };
-  const {inputData, handleDataValue, validateData} = useValidate(feedbackId ? {...initInputData, status: {value: '', error: false}} : initInputData);
   const categoryOptions = contstant.categories.map(category => category.label).filter(category => category !== 'All');
   const statusOptions = contstant.feedbackStatuses.map(status => status.label);
-  const currentFeedback = feedbackId ? feedbacks.find(feedback => feedback.id === parseInt(feedbackId)) : null;
+  const currentFeedback = feedbackId ? feedbacks.find(feedback => feedback.id === feedbackId) : null;
+  
+  // init input data
+  const initInputData = {
+    title: {value: currentFeedback?.title ?? '', error: false},
+    category: {value: currentFeedback?.category ?? categoryOptions[0], error: false},
+    detail: {value: currentFeedback?.description ?? '', error: false}
+  };
+  const {inputData, handleDataValue, validateData} = useValidate(
+    currentFeedback ? {...initInputData, status: {value: currentFeedback.status, error: false}} : initInputData
+  );
 
-  // ovo za rucno uneti feedback ces se pozivati na proveru "currentFeedback"
-  // a za to da li je add ili edit proveravacse prop "feedbackId"
+  const handleOptionCategoryClick = optionValue => {
+    handleDataValue(undefined, 'category', optionValue);
+  }
 
-  // ** sto se tice dobijanja vresnosti za custom selecte, to mozes
-  // da prosledis actionoption u custom select i da dobijes nazad
-  // value kojie ces da prosledis handleDataValue, a kod njega smo namestili da
-  // moze da prihvati value isto tako stavi i za name propery
+  const handleOptionStatusClick = optionValue => {
+    handleDataValue(undefined, 'status', optionValue);
+  }
+
+  if (feedbackId && !currentFeedback) {
+    return <Message message="You can't edit non-existing feedback." />
+  }
 
   return (
     <div className="container-body">
-      <img src={feedbackId ? icons.iconEditFeedback : icons.iconNewFeedback} alt="add edit feedback" />
-      <h2>{feedbackId ? `Edit '${currentFeedback.title}'` : 'Create New Feedback'}</h2>
+      <img src={currentFeedback ? icons.iconEditFeedback : icons.iconNewFeedback} alt="add edit feedback" />
+      <h2>{currentFeedback?.title ?? 'Create New Feedback'}</h2>
       <form>
-        <div className="form-group">
+        <div className={`form-group${ inputData.title.error ? ' has-error' : '' }`}>
           <h4>Feedback Title</h4>
           <p>Add a short, descriptive headline</p>
-          <input type="text" className="form-control" />
+          <input 
+            type="text"
+            name="title" 
+            className="form-control" 
+            value={inputData.title.value}
+            onChange={handleDataValue}
+          />
+          {inputData.title.error && <span className="form-control-error">The field can't be empty!</span>}
         </div>
         <div className="form-group">
           <h4>Category</h4>
           <p>Choose a category for your feedback</p>
           <CustomSelect 
             options={categoryOptions}
-            currentOption={categoryOptions[0]}
+            currentOption={inputData.category.value}
+            optionAction={handleOptionCategoryClick}
           />
         </div>
         {feedbackId && <div className="form-group">
@@ -49,15 +62,22 @@ const AddEditBody = ({feedbackId, feedbacks}) => {
           <p>Change feedback status</p>
           <CustomSelect 
             options={statusOptions}
-            currentOption={statusOptions[0]}
+            currentOption={inputData.status.value}
+            optionAction={handleOptionStatusClick}
           />
         </div>}
-        <div className="form-group">
+        <div className={`form-group${ inputData.detail.error ? ' has-error' : '' }`}>
           <h4>Feedback Detail</h4>
           <p>Include any specific comments on what should be improved, added, etc.</p>
-          <textarea className="form-control"></textarea>
+          <textarea 
+            name="detail"
+            className="form-control" 
+            value={inputData.detail.value}
+            onChange={handleDataValue}
+          ></textarea>
+          {inputData.detail.error && <span className="form-control-error">The field can't be empty!</span>}
         </div>
-        <AddEditAction />
+        <AddEditAction feedbackId={feedbackId} inputData={inputData} validateData={validateData} />
       </form>
     </div>
   )

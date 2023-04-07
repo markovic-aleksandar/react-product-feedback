@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useFeedbackContext } from '../../context/feedback_context';
 import useValidate from '../../hooks/useValidate';
-import { getUserImages, validateInputData } from "../../utils";
+import { getUserImages } from "../../utils";
 
 const Comment = ({id, parentId, content, user:{image, name, username}, replyingTo, feedbackId}) => {
   const [userImages, setUserImages] = useState(null);
@@ -25,8 +25,6 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
     getUserImages(import.meta.glob('../../assets/user-images/*'))
     .then(response => setUserImages(response));
   }, []);
-
-  // console.log(inputData.comment.error);
 
   return (
     <div className="comment">

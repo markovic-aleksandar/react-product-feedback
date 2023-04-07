@@ -58,8 +58,6 @@ const feedbackStatuses = [
   }
 ];
 
-
-
 export default {
   categories,
   feedbackStatuses

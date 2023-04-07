@@ -8,13 +8,14 @@ const AddComment = ({feedbackId}) => {
   const [characterLeft, setCharacterLeft] = useState(0);
 
   const handleInputValue = e => {
+    const name = e.target.name;
     let value = e.target.value;
 
     if (value.length >= 250) {
       value = value.slice(0, 250);
     }
 
-    handleDataValue(e, value);
+    handleDataValue(undefined, name, value);
   }
 
   const postComment = () => {

@@ -3,9 +3,9 @@ import Comments from './Comments';
 import AddComment from './AddComment';
 import { useFeedbackContext } from '../../context/feedback_context';
 
-const SingleBody = ({currentID}) => {  
+const SingleBody = ({currentID}) => {
   const {feedbacks} = useFeedbackContext();
-  const currentFeedback = feedbacks.find(feedback => feedback.id === parseInt(currentID));
+  const currentFeedback = feedbacks.find(feedback => feedback.id === currentID);
   const comments = currentFeedback.comments ? currentFeedback.comments : [];
 
   return (

@@ -1,4 +1,4 @@
-import { useEffect, createContext, useContext, useReducer, useCallback } from 'react';
+import { useEffect, createContext, useContext, useReducer } from 'react';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useUserContext } from './user_context';
@@ -73,6 +73,22 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.ADD_COMMENT, payload: {...commentInfo, commentId, currentUser}});
   }
 
+  // add feedback
+  const addFeedback = feedbackInfo => {
+    const feedbackId = uuidv4();
+    dispatch({type: actions.ADD_FEEDBACK, payload: {...feedbackInfo, id: feedbackId}});
+  }
+
+  // delete feedback
+  const deleteFeedback = id => {
+    dispatch({type: actions.DELETE_FEEDBACK, payload: id});
+  }
+
+  // edit feedback
+  const editFeedback = (id, feedbackInfo) => {
+    dispatch({type: actions.EDIT_FEEDBACK, payload: {id, feedbackInfo}});
+  }
+
   useEffect(() => {
     fetchFeedback(API_URL);
   }, []);
@@ -89,7 +105,10 @@ const FeedbackProvider = ({children}) => {
       updateFilter,
       updateSort,
       addReplyComment,
-      addComment
+      addComment,
+      addFeedback,
+      deleteFeedback,
+      editFeedback
     }}>
       {children}
     </FeedbackContext.Provider>

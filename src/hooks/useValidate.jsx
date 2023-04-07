@@ -3,9 +3,9 @@ import { useState } from 'react';
 const useValidate = (enterData) => {
   const [inputData, setInputData] = useState(enterData);
 
-  const handleDataValue = (e, enterValue) => {
-    const name = e.target.name;
-    const value = enterValue || e.target.value;
+  const handleDataValue = (e, enterName, enterValue) => {
+    const name = enterName !== undefined ? enterName : e.target.name;
+    const value = enterValue !== undefined ? enterValue : e.target.value;
 
     setInputData(prevValue => ({...prevValue, [name]: {...prevValue[name], value}}));
   }

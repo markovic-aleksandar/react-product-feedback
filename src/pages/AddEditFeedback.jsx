@@ -3,7 +3,8 @@ import { Loading, AddEditHeader, AddEditBody } from '../components';
 import { useFeedbackContext } from '../context/feedback_context';
 
 const AddEditFeedback = () => {
-  const {id: params} = useParams();
+  let {id} = useParams();
+  id = Number(id) || id;
   const {feedbacksLoading, feedbacks} = useFeedbackContext();
   
   return (
@@ -13,7 +14,7 @@ const AddEditFeedback = () => {
         {feedbacksLoading ? (
           <Loading />
         ) : (
-          <AddEditBody feedbackId={params} feedbacks={feedbacks} />
+          <AddEditBody feedbackId={id} feedbacks={feedbacks} />
         )}
       </div>
     </div>

@@ -4,7 +4,8 @@ import { useFeedbackContext } from '../context/feedback_context';
 
 
 const SingleFeedback = () => {
-  const {id} = useParams();
+  let {id} = useParams();
+  id = Number(id) || id;
   const {feedbacksLoading} = useFeedbackContext();
 
   return (

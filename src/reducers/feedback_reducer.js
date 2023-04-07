@@ -26,7 +26,7 @@ const feedback_reducer = (state, action) => {
   if (action.type === actions.UPDATE_STATUSES) {
     let {statuses, feedbacks} = state;
     const availableStatuses = feedbacks.reduce((total, item) => {
-      const {status} = item;
+      const status = item.status.toLowerCase();
       if (status !== 'suggestion') {
         total = {...total, [status]: [...total[status], item]};
       } 
@@ -54,7 +54,7 @@ const feedback_reducer = (state, action) => {
     let suggestedFeedbacks = getFeedbacksByStatus(feedbacks, 'suggestion');
     
     if (currentCategory !== 'all') {
-      suggestedFeedbacks = suggestedFeedbacks.filter(feedback => feedback.category === currentCategory);
+      suggestedFeedbacks = suggestedFeedbacks.filter(feedback => feedback.category.toLowerCase() === currentCategory);
     }
 
     return {...state, suggestedFeedbacks};
@@ -102,7 +102,7 @@ const feedback_reducer = (state, action) => {
     };
     
     const tempFeedbacks = state.feedbacks.map(feedback => {
-      if (feedback.id === parseInt(feedbackId)) {
+      if (feedback.id === feedbackId) {
         const comments = feedback.comments.map(comment => {
           if (comment.id === parentId) {
             const replies = comment.replies ? [...comment.replies, commentObj] : [commentObj];
@@ -119,7 +119,6 @@ const feedback_reducer = (state, action) => {
   }
 
   if (action.type === actions.ADD_COMMENT) {
-    console.log(11);
     const {
       feedbackId,
       content,
@@ -134,9 +133,38 @@ const feedback_reducer = (state, action) => {
     };
 
     const tempFeedbacks = state.feedbacks.map(feedback => {
-      if (feedback.id === parseInt(feedbackId)) {
+      if (feedback.id === feedbackId) {
         const comments = feedback.comments ? [...feedback.comments, commentObj] : [commentObj];
         return {...feedback, comments};
+      }
+      return feedback;
+    });
+
+    return {...state, feedbacks: tempFeedbacks};
+  }
+
+  if (action.type === actions.ADD_FEEDBACK) {
+    const feedbackObj = {
+      ...action.payload,
+      upvotes: 0,
+      status: 'suggestion'
+    };
+
+    return {...state, feedbacks: [...state.feedbacks, feedbackObj]};
+  }
+
+  if (action.type === actions.DELETE_FEEDBACK) {
+    const tempFeedbacks = state.feedbacks.filter(feedback => feedback.id !== action.payload);
+
+    return {...state, feedbacks: tempFeedbacks};
+  }
+
+  if (action.type === actions.EDIT_FEEDBACK) {
+    const {id, feedbackInfo: feedbackObj} = action.payload;
+
+    const tempFeedbacks = state.feedbacks.map(feedback => {
+      if (feedback.id === id) {
+        return {...feedback, ...feedbackObj};
       }
       return feedback;
     });
