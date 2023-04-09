@@ -34,3 +34,7 @@ export const validateInputData = data => {
 
   return {dataItems, error: errors > 0 ? true : false};
 }
+
+export const getDataFromStorage = storageName => {
+  return JSON.parse(localStorage.getItem(storageName));
+}

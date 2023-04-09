@@ -1,7 +1,6 @@
 import Comment from './Comment';
 
 const Comments = ({feedbackId, comments}) => {
-  
   return (
     <div className="comments-container">
       <h3>{comments.length} Comments</h3>

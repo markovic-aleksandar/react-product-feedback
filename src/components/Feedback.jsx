@@ -1,8 +1,19 @@
+import { useUserContext } from '../context/user_context';
+import { useFeedbackContext } from '../context/feedback_context';
 import { HiChevronUp } from 'react-icons/hi';
 import { icons } from '../constants';
 
 const Feedback = ({id, title, category, status, upvotes, description, comments, statusColor, handleFeedbackAction}) => {
-  
+  const {votedFeedbacks, toggleVote} = useUserContext();
+  const {toggleFeedbackVote} = useFeedbackContext();
+  const feedbackIsVoted = votedFeedbacks.includes(id);
+
+  const handleToggleVote = e => {
+    e.stopPropagation();
+    toggleVote(id);
+    toggleFeedbackVote(id, feedbackIsVoted ? -1 : 1);
+  }
+
   return (
     <article 
       className={`feedback-holder${statusColor ? ' feedback-holder-status' : ''}`}
@@ -21,7 +32,7 @@ const Feedback = ({id, title, category, status, upvotes, description, comments, 
         <span className="flag">{category}</span>
       </div>
       <div className="holder-manage">
-        <button type="button" className="vote-btn flag">
+        <button type="button" className={`vote-btn flag${ feedbackIsVoted ? ' active' : '' }`} onClick={handleToggleVote}>
           <HiChevronUp />
           {upvotes}
         </button>

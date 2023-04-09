@@ -1,0 +1,1 @@
+export const TOGGLE_VOTES = 'TOGGLE_VOTES';

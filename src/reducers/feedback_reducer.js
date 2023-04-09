@@ -172,6 +172,19 @@ const feedback_reducer = (state, action) => {
     return {...state, feedbacks: tempFeedbacks};
   }
 
+  if (action.type === actions.TOGGLE_FEEDBACK_VOTE) {
+    const {id, toggleAmount} = action.payload;
+
+    const tempFeedbacks = state.feedbacks.map(feedback => {
+      if (feedback.id === id) {
+        return {...feedback, upvotes: parseInt(feedback.upvotes) + toggleAmount};
+      }
+      return feedback;
+    })
+
+    return {...state, feedbacks: tempFeedbacks};
+  }
+
   throw new Error('Unknown action');
 }
 

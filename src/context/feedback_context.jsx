@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useUserContext } from './user_context';
 import feedback_reducer from '../reducers/feedback_reducer';
 import * as actions from '../actions/feedback_action';
+import { getDataFromStorage } from '../utils';
 
 const API_URL = 'https://raw.githubusercontent.com/aebiz-aleksandar/api/main/feedbacks.json';
 
@@ -12,7 +13,7 @@ const FeedbackContext = createContext();
 const initState = {
   feedbacksLoading: true,
   feedbacksError: false,
-  feedbacks: [],
+  feedbacks: getDataFromStorage('feedbacks') ?? [],
   suggestedFeedbacks: [],
   currentSort: 'Most Upvotes',
   currentCategory: 'all',
@@ -89,14 +90,25 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.EDIT_FEEDBACK, payload: {id, feedbackInfo}});
   }
 
+  // toggle feedback vote
+  const toggleFeedbackVote = (id, toggleAmount) => {
+    dispatch({type: actions.TOGGLE_FEEDBACK_VOTE, payload: {id, toggleAmount}});
+  }
+
   useEffect(() => {
-    fetchFeedback(API_URL);
+    if (!getDataFromStorage('feedbacks')) {
+      fetchFeedback(API_URL);
+    } else {        
+      dispatch({type: actions.FETCH_SUCCESS, payload: getDataFromStorage('feedbacks')})
+    }
   }, []);
 
-  useEffect(() => {    
+  useEffect(() => {
     dispatch({type: actions.UPDATE_STATUSES});
     dispatch({type: actions.FILTER_FEEDBACKS});
     dispatch({type: actions.SORT_FEEDBACKS});
+    
+    localStorage.setItem('feedbacks', JSON.stringify(state.feedbacks));
   }, [state.feedbacks, state.currentCategory, state.currentSort]);
 
   return (
@@ -108,7 +120,8 @@ const FeedbackProvider = ({children}) => {
       addComment,
       addFeedback,
       deleteFeedback,
-      editFeedback
+      editFeedback,
+      toggleFeedbackVote
     }}>
       {children}
     </FeedbackContext.Provider>
