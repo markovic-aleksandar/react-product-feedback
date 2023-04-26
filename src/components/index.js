@@ -3,6 +3,7 @@ import GradientBoard from './home/GradientBoard';
 import CategoryBoard  from './CategoryBoard';
 import RoadmapBoard from './RoadmapBoard';
 import SuggestionsBoard from './home/SuggestionsBoard';
+import GoBack from './GoBack';
 import Feedbacks from './home/Feedbacks';
 import RoadmapHeader from './roadmap/RoadmapHeader';
 import RoadmapFeedbacks from './roadmap/RoadmapFeedbacks';
@@ -19,6 +20,7 @@ export {
   CategoryBoard,
   RoadmapBoard,
   SuggestionsBoard,
+  GoBack,
   Feedbacks,
   RoadmapHeader,
   RoadmapFeedbacks,

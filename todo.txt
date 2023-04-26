@@ -1,0 +1,8 @@
+- error takdke unutar feedbacks container-a
+
+- add feedback ne radi sa roadmap-a
+- da kreiras jednu posebnu componentu za sve ove '< go back' i svuda da primenis,
+a da obrises nepotreben
+
+- kada se u okviru profila klikne na 'edit', treba da prikaze neku ikonicu
+kao da se moze promeniti, isto nesto za menaje imane, email ?
