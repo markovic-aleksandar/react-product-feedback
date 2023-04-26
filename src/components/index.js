@@ -10,6 +10,8 @@ import SingleHeader from './single/SingleHeader';
 import SingleBody from './single/SingleBody';
 import AddEditHeader from './add_edit/AddEditHeader';
 import AddEditBody from './add_edit/AddEditBody';
+import AuthHeader from './auth/AuthHeader';
+import AuthForm from './auth/AuthForm';
 
 export {
   Loading,
@@ -23,5 +25,7 @@ export {
   SingleHeader,
   SingleBody,
   AddEditHeader,
-  AddEditBody
+  AddEditBody,
+  AuthHeader,
+  AuthForm
 }
