@@ -1,6 +1,8 @@
+import { useNavigate } from 'react-router-dom';
 import { images } from '../../constants';
 
 const GradientBoard = () => {
+  const navigate = useNavigate();
 
   return (
     <div className="gradient-board-holder" style={{backgroundImage: `url(${(images.bckgHeaderDesktop)})`}}>
@@ -10,7 +12,11 @@ const GradientBoard = () => {
           <p>Feedback board</p>
         </div>
         <div className="user-holder">
-          <button type="button" className="btn btn-white">Log in</button>
+          <button 
+            type="button" 
+            className="btn btn-white" 
+            onClick={() => navigate('/auth')}
+          >Log in</button>
         </div>
       </div>
     </div>
