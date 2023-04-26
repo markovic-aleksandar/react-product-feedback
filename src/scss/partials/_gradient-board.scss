@@ -14,9 +14,19 @@
         align-items: flex-end;
         justify-content: flex-start;
     }
-    
-    @include breakpoint-up(large) {
-        height: 140px;
+
+    .holder-content {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        @include breakpoint-up(medium) {
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
     }
 
     h2 {

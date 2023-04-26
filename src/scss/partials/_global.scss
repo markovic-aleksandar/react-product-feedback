@@ -105,6 +105,14 @@ background: $red;
     }
 }
 
+.btn.btn-white {
+    color: $dk-blue;
+    background: $white;
+    &:hover {
+        background: lighten($white, 10%);
+    }
+}
+
 .btn-back {
     display: flex;
     align-items: center;
