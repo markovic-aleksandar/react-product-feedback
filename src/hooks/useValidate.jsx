@@ -14,6 +14,7 @@ const useValidate = (enterData) => {
     let errors = 0;
     let tempData = {};
     for (let data in inputData) {
+      console.log(data);
       if (!inputData[data].value) {
         tempData[data] = {...inputData[data], error: true};
         errors ++;

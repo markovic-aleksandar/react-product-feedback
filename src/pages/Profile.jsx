@@ -15,8 +15,8 @@ const Profile = () => {
           <p>aleksandar97kg@gmail.com</p>
         </div>
         <div className="profile-actions">
-          <button type="button" className="btn btn-dk-blue">Cancel</button>
           <button type="button" className="btn btn-purple">Edit</button>
+          <button type="button" className="btn btn-dk-blue">Cancel</button>
         </div>
       </div>
     </div>

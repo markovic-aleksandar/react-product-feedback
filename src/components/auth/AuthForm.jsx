@@ -4,7 +4,19 @@ import { icons } from '../../constants';
 
 const AuthForm = () => {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [formData, setFormData] = useState({
+    name: {value: '', error: false},
+    email: {value: '', error: false},
+    password: {value: '', error: false},
+    avatar: {value: null, error: false}
+  });
+  const {formData: {name, email, password, avatar}} = formData;
   const [image, setImage] = useState('No file chosen');
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    
+  }
 
   return (
     <div className="container-body">
@@ -16,7 +28,7 @@ const AuthForm = () => {
           <p>Enter your name and surname</p>
           <input 
             type="text" 
-            className="form-control"   
+            className="form-control" 
           />
         </div>}
         <div className="form-group">
@@ -49,7 +61,13 @@ const AuthForm = () => {
         <div className="container-actions">
           <div>
             <button type="button" className="btn btn-dk-blue">Cancel</button>
-            <button type="button" className="btn btn-purple">{isSignIn ? 'Log in' : 'Register'}</button>
+            <button 
+              type="button" 
+              className="btn btn-purple"
+              onClick={handleSubmit}
+              >
+                {isSignIn ? 'Log in' : 'Register'}
+              </button>
           </div>
           <p>
             {isSignIn ? 'Don\'t have an account yet?' : 'Already have an account?'}
