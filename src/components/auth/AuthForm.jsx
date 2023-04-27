@@ -1,21 +1,22 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import useValidate from '../../hooks/useValidate';
 import { icons } from '../../constants';
 
 const AuthForm = () => {
   const [isSignIn, setIsSignIn] = useState(true);
-  const [formData, setFormData] = useState({
+  const {inputData, handleDataValue, validateData} = useValidate({
     name: {value: '', error: false},
     email: {value: '', error: false},
     password: {value: '', error: false},
     avatar: {value: null, error: false}
   });
-  const {formData: {name, email, password, avatar}} = formData;
+  const {name, email, password, avatar} = inputData;
   const [image, setImage] = useState('No file chosen');
 
   const handleSubmit = e => {
     e.preventDefault();
-    
+    validateData(() => console.log('sad'));
   }
 
   return (
@@ -27,24 +28,33 @@ const AuthForm = () => {
           <h4>Full Name</h4>
           <p>Enter your name and surname</p>
           <input 
-            type="text" 
+            type="text"
+            name="name"
             className="form-control" 
+            value={name.value}
+            onChange={handleDataValue}
           />
         </div>}
         <div className="form-group">
           <h4>Email</h4>
           <p>Enter your email</p>
           <input 
-            type="email" 
-            className="form-control"   
+            type="email"
+            name="email"
+            className="form-control"
+            value={email.value}
+            onChange={handleDataValue}
           />
         </div>
         <div className="form-group">
           <h4>Password</h4>
           <p>Enter your password</p>
           <input 
-            type="password" 
-            className="form-control"   
+            type="password"
+            name="password"
+            className="form-control"
+            value={password.value}
+            onChange={handleDataValue}
           />
         </div>
         {!isSignIn && <div className="form-group form-group-image">
@@ -53,9 +63,11 @@ const AuthForm = () => {
           <div>
             <img src={icons.uploadPlaceholder} alt="upload placeholder" />
             <input 
-              type="file" 
+              type="file"
+              name="avatar"
+              onChange={handleDataValue}
             />
-            <p>{image}</p>
+            <p>{avatar.value?.name ?? 'No file chosen'}</p>
           </div>
         </div>}
         <div className="container-actions">
