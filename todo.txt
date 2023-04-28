@@ -6,3 +6,9 @@ a da obrises nepotreben
 
 - kada se u okviru profila klikne na 'edit', treba da prikaze neku ikonicu
 kao da se moze promeniti, isto nesto za menaje imane, email ?
+
+***
+- napraviti globalnu noifikaciju u vidu componente (ovde mozes handlevoat greske kod fetch-a na poceku sto si preskocio)
+
+** STAO:
+-- razvodjio si login i register ostaje ti da sada procesuiras sign up i sign in
