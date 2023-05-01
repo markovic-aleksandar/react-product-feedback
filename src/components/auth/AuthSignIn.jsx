@@ -54,7 +54,7 @@ const AuthSignIn = ({setIsSignIn}) => {
             </button>
         </div>
         <p>
-          Don\'t have an account yet?
+          Don't have an account yet?
           <span style={{marginLeft: '5px'}} onClick={() => setIsSignIn(false)}> 
             Register
           </span>

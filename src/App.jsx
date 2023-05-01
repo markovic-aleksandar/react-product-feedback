@@ -1,9 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home, SingleFeedback, Roadmap, AddEditFeedback, Auth, Profile } from './pages';
+import { 
+  Home, 
+  SingleFeedback, 
+  Roadmap, 
+  AddEditFeedback, 
+  Auth, 
+  Profile
+} from './pages';
+import { Alert } from './components';
 
 const App = () => {
   return (
     <BrowserRouter>
+      <Alert type="error" message="Successful added" />
       <Routes>
         <Route path="/">
           <Route index element={<Home />} />

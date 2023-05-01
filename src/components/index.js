@@ -1,4 +1,5 @@
 import Loading from './Loading';
+import Alert from './Alert';
 import GradientBoard from './home/GradientBoard';
 import CategoryBoard  from './CategoryBoard';
 import RoadmapBoard from './RoadmapBoard';
@@ -16,6 +17,7 @@ import AuthForm from './auth/AuthForm';
 
 export {
   Loading,
+  Alert,
   GradientBoard,
   CategoryBoard,
   RoadmapBoard,
