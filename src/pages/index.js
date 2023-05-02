@@ -4,6 +4,7 @@ import Roadmap from './Roadmap';
 import AddEditFeedback from './AddEditFeedback';
 import Auth from './Auth';
 import Profile from './Profile';
+import ProtectedRoute from './ProtectedRoute';
 
 export {
   Home,
@@ -11,5 +12,6 @@ export {
   Roadmap,
   AddEditFeedback,
   Auth,
-  Profile
+  Profile,
+  ProtectedRoute
 }

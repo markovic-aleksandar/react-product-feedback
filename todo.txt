@@ -2,13 +2,17 @@
 
 - add feedback ne radi sa roadmap-a
 - da kreiras jednu posebnu componentu za sve ove '< go back' i svuda da primenis,
-a da obrises nepotreben
+a da obrises nepotrebne I SVE TREBAJU DA PUCAJU NA / -> HOME
 
 - kada se u okviru profila klikne na 'edit', treba da prikaze neku ikonicu
 kao da se moze promeniti, isto nesto za menaje imane, email ?
 
 ***
-- napraviti globalnu noifikaciju u vidu componente (ovde mozes handlevoat greske kod fetch-a na poceku sto si preskocio)
+- ukloni locale storage
+- proveri f-je unutar index utils-a i obirisi nepotrebne
+- promeni toast poruke na nekim mestima
 
 ** STAO:
--- razvodjio si login i register ostaje ti da sada procesuiras sign up i sign in
+-- da oradis upload image-a kroz registraciju,
+pa zatim da mozes editovati account kroz neki edit mod, gde se mogu
+editovati slika i ime

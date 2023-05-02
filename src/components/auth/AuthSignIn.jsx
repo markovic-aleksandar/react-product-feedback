@@ -1,19 +1,31 @@
+import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../context/user_context';
 import useValidate from '../../hooks/useValidate';
+import { toast } from 'react-toastify';
+import { handleErrorMessage } from '../../utils';
 
 const AuthSignIn = ({setIsSignIn}) => {
+  const {userSignIn} = useUserContext();
   const {inputData, handleDataValue, validateData} = useValidate({
     email: {value: '', error: false},
     password: {value: '', error: false}
   });
   const {email, password} = inputData;
+  const navigate = useNavigate();
 
   const handleSubmit = e => {
     e.preventDefault();
-    validateData(signInUser);
+    validateData(handleSignIn);
   }
-  
-  const signInUser = () => {
-    console.log('Sign In');
+
+  const handleSignIn = async () => {
+    try {
+      await userSignIn(inputData);
+      navigate('/profile');
+    }
+    catch(err) {
+      toast.error(handleErrorMessage(err.code));
+    }
   }
 
   return (

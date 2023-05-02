@@ -37,6 +37,35 @@
         color: $lt-grey;
     }
 
+    .user-holder {
+        width: 100%;
+
+        > div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            img {
+                width: 45px;
+                height: 45px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+            a {
+                color: $white;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .loader-holder {
+        margin-top: 0;
+
+        .loader {
+            border: 5px solid $white;
+            border-bottom-color: transparent;
+        }
+    }
+
     .mobile-toggle {
         
         @include breakpoint-up(medium) {

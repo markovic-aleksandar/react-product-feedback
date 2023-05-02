@@ -1,6 +1,23 @@
 import * as actions from '../actions/user_action';
 
 const user_reducer = (state, action) => {
+  if (action.type === actions.FETCH_USER) {
+    return {
+      ...state,
+      currentUserLoading: false,
+      currentUser: action.payload
+      // currentUserId: action.payload
+    };
+  }
+
+  if (action.type === actions.SET_USER) {
+    return {
+      ...state,
+      currentUserLoading: false,
+      currentUser: action.payload
+    }
+  }
+
   if (action.type === actions.TOGGLE_VOTES) {
     const id = action.payload;
     const {votedFeedbacks} = state;

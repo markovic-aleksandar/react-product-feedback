@@ -1,7 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../context/user_context';
+import Loading from '../Loading';
+import GradientUserProfile from './GradientUserProfile';
 import { images } from '../../constants';
 
 const GradientBoard = () => {
+  const {currentUserLoading, currentUser} = useUserContext();
   const navigate = useNavigate();
 
   return (
@@ -12,11 +16,17 @@ const GradientBoard = () => {
           <p>Feedback board</p>
         </div>
         <div className="user-holder">
-          <button 
-            type="button" 
-            className="btn btn-white" 
-            onClick={() => navigate('/auth')}
-          >Log in</button>
+          {currentUserLoading ? (
+            <Loading />
+          ) : !currentUser ? (
+            <button 
+              type="button" 
+              className="btn btn-white" 
+              onClick={() => navigate('/auth')}
+            >Log in</button>
+          ) : (
+            <GradientUserProfile currentUser={currentUser} />
+          )}
         </div>
       </div>
     </div>

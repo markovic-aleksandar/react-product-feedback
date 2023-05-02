@@ -1,8 +1,13 @@
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../context/user_context';
 import useValidate from '../../hooks/useValidate';
+import { handleErrorMessage } from '../../utils';
+import { toast } from 'react-toastify';
 import { icons } from '../../constants';
 
 const AuthSignUp = ({setIsSignIn}) => {
+  const {userSignUp} = useUserContext();
   const {inputData, handleDataValue, validateData} = useValidate({
     name: {value: '', error: false},
     email: {value: '', error: false},
@@ -11,6 +16,7 @@ const AuthSignUp = ({setIsSignIn}) => {
   });
   const {name, email, password, avatar} = inputData;
   const imageAvatar = useRef(null);
+  const navigate = useNavigate();
 
   const handleAvatarSelect = e => {
     const el = e.currentTarget;
@@ -29,11 +35,17 @@ const AuthSignUp = ({setIsSignIn}) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    validateData(signUpUser);
+    validateData(handleSignUp);
   }
 
-  const signUpUser = () => {
-    console.log('Sign Up');
+  const handleSignUp = async () => {
+    try {
+      await userSignUp(inputData);
+      navigate('/');
+    }
+    catch(err) {
+      toast.error(handleErrorMessage(err.code));
+    }
   }
 
   return (
