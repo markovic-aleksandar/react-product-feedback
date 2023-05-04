@@ -58,7 +58,7 @@ const useValidate = enterData => {
     setInputData(tempData);
   }
 
-  return {inputData, handleDataValue, validateData, resetData};
+  return {inputData, setInputData, handleDataValue, validateData, resetData};
 }
 
 export default useValidate;

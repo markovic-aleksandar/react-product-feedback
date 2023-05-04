@@ -4,15 +4,24 @@
 - da kreiras jednu posebnu componentu za sve ove '< go back' i svuda da primenis,
 a da obrises nepotrebne I SVE TREBAJU DA PUCAJU NA / -> HOME
 
-- kada se u okviru profila klikne na 'edit', treba da prikaze neku ikonicu
-kao da se moze promeniti, isto nesto za menaje imane, email ?
 
+==========================================================================
 ***
 - ukloni locale storage
 - proveri f-je unutar index utils-a i obirisi nepotrebne
 - promeni toast poruke na nekim mestima
 
-** STAO:
--- da oradis upload image-a kroz registraciju,
-pa zatim da mozes editovati account kroz neki edit mod, gde se mogu
-editovati slika i ime
+***********
+-- Rule-ovi za firestore i storage
+-- takodje na front-end kod file inputa podesi koji fileovi mogu da se priloze
+-- loading kada se registruje
+-- takodje loading da bude kada se azurirara profile isto da ne mozes kliknuti dok radi
+
+CITAJ OVO - kada kliknes da edit dobices i save ali takodje bi morao da imas i cancel
+kako bi prekinuo editovanje
+
+
+-ALI TAKODJE VIDI KAKO CES SA STORAGE-OM DA SE NE PONAVLJA 2X
+
+
+------- TREBA DA PRODJES KROZ SVE PONOVO

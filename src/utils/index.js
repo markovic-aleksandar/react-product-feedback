@@ -55,3 +55,16 @@ export const handleErrorMessage = error => {
       return error;
   }
 }
+
+export const showSelectedAvatar = (el, image, generateImage) => {
+  if (el.files && el.files[0]) {
+    const reader = new FileReader();
+
+    reader.onload = e => {
+      image.src = e.target.result;
+    }
+    reader.readAsDataURL(el.files[0]);
+  } else {
+    image.src = generateImage;
+  }
+}

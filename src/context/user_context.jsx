@@ -6,13 +6,21 @@ import {
   signOut 
 } from 'firebase/auth';
 import { 
+  onSnapshot,
   doc,
   setDoc,
   getDoc,
+  updateDoc
 } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from 'firebase/storage';
+import { auth, db, storage } from '../firebase';
 import user_reducer from '../reducers/user_reducer';
 import * as actions from '../actions/user_action';
+import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
 import { getDataFromStorage, handleErrorMessage } from '../utils';
 
@@ -34,13 +42,32 @@ const UserProvider = ({children}) => {
 
   const userSignUp = async userData => {
     const {name, email, password, avatar} = userData;
+    // create auth user
     const {user} = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    // document reference
     const docRef = doc(db, 'users', user.uid);
-    await setDoc(docRef, {
-      name: name.value,
-      email: email.value,
-      avatar: avatar.value
-    });
+    // check if avatar is exists
+    if (avatar.value) {
+      const avatarRef = ref(storage, `$${uuidv4()}.${avatar.value.name}`);
+      const uploadTask = uploadBytesResumable(avatarRef, avatar.value);
+      uploadTask.on('state_changed', false, error => {
+        console.log(error);
+      }, async () => {
+        avatar.value = await getDownloadURL(uploadTask.snapshot.ref);
+        const userObj = {
+          name: name.value,
+          email: email.value,
+          avatar: avatar.value
+        };
+        await setDoc(docRef, userObj);
+      });
+    } else {
+      await setDoc(docRef, {
+        name: name.value,
+        email: email.value,
+        avatar: null
+      });
+    }
   }
 
   const userSignIn = async userData => {
@@ -57,6 +84,30 @@ const UserProvider = ({children}) => {
     }
   }
 
+  const userUpdate = async userData => {    
+    const {name, avatar} = userData;
+    const docRef = doc(db, 'users', state.currentUser.id);
+    
+    if (avatar.value?.size) {
+      const avatarRef = ref(storage, `$${uuidv4()}.${avatar.value.name}`);
+      const uploadTask = uploadBytesResumable(avatarRef, avatar.value);
+      uploadTask.on('state_changed', false, error => {
+        console.log(error);
+      }, async () => {
+        avatar.value = await getDownloadURL(uploadTask.snapshot.ref);
+        await updateDoc(docRef, {
+          name: name.value,
+          avatar: avatar.value
+        });
+      });
+    } else {
+      await updateDoc(docRef, {
+        name: name.value,
+        avatar: avatar.value
+      });
+    }
+  }
+
   const toggleVote = id => {
     dispatch({type: actions.TOGGLE_VOTES, payload: id});
   }
@@ -66,20 +117,24 @@ const UserProvider = ({children}) => {
   }, [state.votedFeedbacks]);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, async user => {
-      let currentUser = null;
-
+    const unsub = onAuthStateChanged(auth, user => {
       if (user) {
         const {uid} = user;
         const docRef = doc(db, 'users', uid);
-        const docUser = await getDoc(docRef);
-        currentUser = {...docUser.data(), id: docUser.id};
+        const unsub = onSnapshot(docRef, snap => {
+          if (snap.exists()) {
+            const currentUser = {...snap.data(), id: uid};
+            dispatch({type: actions.SET_USER, payload: currentUser});
+          }
+        });
+
+        return unsub;
+      } else {
+        dispatch({type: actions.SET_USER, payload: null});
       }
-      
-      dispatch({type: actions.FETCH_USER, payload: currentUser});
     });
 
-    return () => unsub();
+    return unsub;
   }, []);
 
   return (
@@ -88,6 +143,7 @@ const UserProvider = ({children}) => {
       userSignUp,
       userSignIn,
       userSignOut,
+      userUpdate,
       toggleVote
     }}>
       {children}
