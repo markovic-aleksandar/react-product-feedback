@@ -13,15 +13,6 @@ a da obrises nepotrebne I SVE TREBAJU DA PUCAJU NA / -> HOME
 
 ***********
 -- Rule-ovi za firestore i storage
--- takodje na front-end kod file inputa podesi koji fileovi mogu da se priloze
--- loading kada se registruje
--- takodje loading da bude kada se azurirara profile isto da ne mozes kliknuti dok radi
-
-CITAJ OVO - kada kliknes da edit dobices i save ali takodje bi morao da imas i cancel
-kako bi prekinuo editovanje
-
-
--ALI TAKODJE VIDI KAKO CES SA STORAGE-OM DA SE NE PONAVLJA 2X
-
-
 ------- TREBA DA PRODJES KROZ SVE PONOVO
+
+-- ako ne postoji neka ruta treba da redirektuje na home

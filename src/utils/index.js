@@ -57,7 +57,9 @@ export const handleErrorMessage = error => {
 }
 
 export const showSelectedAvatar = (el, image, generateImage) => {
-  if (el.files && el.files[0]) {
+  const acceptType = ['image/png', 'image/jpeg', 'image/jpg'];
+
+  if (el.files && el.files[0] && acceptType.includes(el.files[0].type)) {
     const reader = new FileReader();
 
     reader.onload = e => {

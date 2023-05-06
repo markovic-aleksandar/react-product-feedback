@@ -9,8 +9,8 @@ import {
   onSnapshot,
   doc,
   setDoc,
-  getDoc,
-  updateDoc
+  updateDoc,
+  serverTimestamp
 } from 'firebase/firestore';
 import {
   ref,
@@ -40,6 +40,14 @@ const initState = {
 const UserProvider = ({children}) => {
   const [state, dispatch] = useReducer(user_reducer, initState);
 
+  const startUserLoading = () => {
+    dispatch({type: actions.START_LOADING});
+  }
+
+  const endUserLoading = () => {
+    dispatch({type: actions.END_LOADING});
+  }
+
   const userSignUp = async userData => {
     const {name, email, password, avatar} = userData;
     // create auth user
@@ -48,16 +56,12 @@ const UserProvider = ({children}) => {
     const docRef = doc(db, 'users', user.uid);
     // check if avatar is exists
     if (avatar.value) {
-      const avatarRef = ref(storage, `$${uuidv4()}.${avatar.value.name}`);
-      const uploadTask = uploadBytesResumable(avatarRef, avatar.value);
-      uploadTask.on('state_changed', false, error => {
-        console.log(error);
-      }, async () => {
-        avatar.value = await getDownloadURL(uploadTask.snapshot.ref);
+      uploadToStorage(avatar.value, async avatarValue => {
         const userObj = {
           name: name.value,
           email: email.value,
-          avatar: avatar.value
+          avatar: avatarValue,
+          created_at: serverTimestamp()
         };
         await setDoc(docRef, userObj);
       });
@@ -65,7 +69,8 @@ const UserProvider = ({children}) => {
       await setDoc(docRef, {
         name: name.value,
         email: email.value,
-        avatar: null
+        avatar: null,
+        created_at: serverTimestamp()
       });
     }
   }
@@ -84,28 +89,39 @@ const UserProvider = ({children}) => {
     }
   }
 
-  const userUpdate = async userData => {    
+  const userUpdate = async userData => {
     const {name, avatar} = userData;
     const docRef = doc(db, 'users', state.currentUser.id);
     
+    startUserLoading();
+    
     if (avatar.value?.size) {
-      const avatarRef = ref(storage, `$${uuidv4()}.${avatar.value.name}`);
-      const uploadTask = uploadBytesResumable(avatarRef, avatar.value);
-      uploadTask.on('state_changed', false, error => {
-        console.log(error);
-      }, async () => {
-        avatar.value = await getDownloadURL(uploadTask.snapshot.ref);
+      uploadToStorage(avatar.value, async avatarValue => {
         await updateDoc(docRef, {
           name: name.value,
-          avatar: avatar.value
+          avatar: avatarValue
         });
+        endUserLoading();
       });
     } else {
       await updateDoc(docRef, {
         name: name.value,
         avatar: avatar.value
       });
+      dispatch({type: actions.END_LOADING});
+      endUserLoading();
     }
+  }
+
+  const uploadToStorage = (file, successAction) => {
+    const avatarRef = ref(storage, `$${uuidv4()}.${file.name}`);
+    const uploadTask = uploadBytesResumable(avatarRef, file);
+    uploadTask.on('state_changed', false, error => {
+      console.log(error);
+    }, async () => {
+      const avatarValue = await getDownloadURL(uploadTask.snapshot.ref);
+      successAction(avatarValue);
+    })
   }
 
   const toggleVote = id => {
@@ -140,6 +156,7 @@ const UserProvider = ({children}) => {
   return (
     <UserContext.Provider value={{
       ...state,
+      endUserLoading,
       userSignUp,
       userSignIn,
       userSignOut,

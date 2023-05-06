@@ -10,7 +10,8 @@ import userAvatar from '../assets/user-images/image-user.jpg';
 
 const Profile = () => {
   const {
-    currentUser: {name, email, avatar}, 
+    currentUser: {name, email, avatar},
+    endUserLoading,
     userSignOut,
     userUpdate
   } = useUserContext();
@@ -38,6 +39,7 @@ const Profile = () => {
       setIsEdit(false);
     }
     catch(err) {
+      endUserLoading();
       toast.error(handleErrorMessage(err.code));
     }
   }
@@ -62,56 +64,57 @@ const Profile = () => {
             <input 
               type="file" 
               name="avatar"
+              accept="image/png, image/jpeg, image/jpg"
               onChange={handleAvatarSelect}
             />
           </div>}
         </div>
         <div className={`profile-info${ isEdit ? ' profile-info-edit' : '' }`}>
-          {isEdit ? 
-            <div className="form-group">
-              <h4>Your Name</h4>
-              <p>Change your name</p>
-              <input 
-                type="text"
-                name="name" 
-                value={inputData.name.value} 
-                className="form-control"
-                onChange={handleDataValue}
-              />
-            </div>
-            :
-            <h3>{name}</h3>
-          }
-          <p>{email}</p>
+        {isEdit ? 
+          <div className="form-group">
+            <h4>Your Name</h4>
+            <p>Change your name</p>
+            <input 
+              type="text"
+              name="name" 
+              value={inputData.name.value} 
+              className="form-control"
+              onChange={handleDataValue}
+            />
+          </div>
+          :
+          <h3>{name}</h3>
+        }
+        <p>{email}</p>
         </div>
         <div className="profile-actions">
-          {isEdit ? 
-            <>
-              <button 
-                type="button" 
-                className="btn btn-purple"
-                onClick={() => validateData(handleUpdate)}
-                >Save</button>
-              <button 
-                type="button"
-                className="btn btn-dk-blue"
-                onClick={handleCancelEdit}
-              >Cancel</button>
-            </>
-            :
-            <>
-              <button 
-                type="button" 
-                className="btn btn-purple"
-                onClick={() => setIsEdit(true)}  
-              >Edit</button>
-              <button 
-                type="button" 
-                className="btn btn-dk-blue"
-                onClick={handleSignOut}  
-              >Log out</button>
-            </>
-          }
+        {isEdit ? 
+          <>
+            <button 
+              type="button" 
+              className="btn btn-purple"
+              onClick={() => validateData(handleUpdate)}
+              >Save</button>
+            <button 
+              type="button"
+              className="btn btn-dk-blue"
+              onClick={handleCancelEdit}
+            >Cancel</button>
+          </>
+          :
+          <>
+            <button 
+              type="button" 
+              className="btn btn-purple"
+              onClick={() => setIsEdit(true)}  
+            >Edit</button>
+            <button 
+              type="button" 
+              className="btn btn-dk-blue"
+              onClick={handleSignOut}  
+            >Log out</button>
+          </>
+        }
         </div>
       </div>
     </div>

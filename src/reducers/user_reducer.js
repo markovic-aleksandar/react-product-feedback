@@ -9,6 +9,14 @@ const user_reducer = (state, action) => {
     }
   }
 
+  if (action.type === actions.START_LOADING) {
+    return {...state, currentUserLoading: true};
+  }
+
+  if (action.type === actions.END_LOADING) {
+    return {...state, currentUserLoading: false};
+  }
+
   if (action.type === actions.TOGGLE_VOTES) {
     const id = action.payload;
     const {votedFeedbacks} = state;

@@ -1,8 +1,9 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../../context/user_context';
 import useValidate from '../../hooks/useValidate';
 import { handleErrorMessage } from '../../utils';
+import Loading from '../Loading';
 import { toast } from 'react-toastify';
 import { icons } from '../../constants';
 
@@ -15,6 +16,7 @@ const AuthSignUp = ({setIsSignIn}) => {
     avatar: {value: null, error: false}
   });
   const {name, email, password, avatar} = inputData;
+  const [loading, setLoading] = useState(false);
   const imageAvatar = useRef(null);
   const navigate = useNavigate();
 
@@ -39,6 +41,7 @@ const AuthSignUp = ({setIsSignIn}) => {
   }
 
   const handleSignUp = async () => {
+    setLoading(true);
     try {
       await userSignUp(inputData);
       navigate('/');
@@ -46,6 +49,13 @@ const AuthSignUp = ({setIsSignIn}) => {
     catch(err) {
       toast.error(handleErrorMessage(err.code));
     }
+    finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return <Loading />
   }
 
   return (
@@ -94,6 +104,7 @@ const AuthSignUp = ({setIsSignIn}) => {
           <input 
             type="file"
             name="avatar"
+            accept="image/png, image/jpeg, image/jpg"
             onChange={handleAvatarSelect}
           />
           <p>{avatar.value?.name ?? 'No file chosen'}</p>
