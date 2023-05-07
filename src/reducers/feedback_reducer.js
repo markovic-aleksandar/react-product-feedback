@@ -154,11 +154,11 @@ const feedback_reducer = (state, action) => {
   }
 
   if (action.type === actions.EDIT_FEEDBACK) {
-    const {id, feedbackInfo: feedbackObj} = action.payload;
+    const {id, currentFeedback} = action.payload;
 
     const tempFeedbacks = state.feedbacks.map(feedback => {
       if (feedback.id === id) {
-        return {...feedback, ...feedbackObj};
+        return {...feedback, ...currentFeedback};
       }
       return feedback;
     });

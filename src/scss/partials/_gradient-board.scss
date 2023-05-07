@@ -39,6 +39,10 @@
 
     .user-holder {
         
+        @include breakpoint-up(medium) {
+            width: 100%;
+        }
+
         > div {
             display: flex;
             align-items: center;

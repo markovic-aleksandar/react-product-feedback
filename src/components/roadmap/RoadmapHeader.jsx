@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../context/user_context';
 import { HiChevronLeft, HiPlusSm } from 'react-icons/hi';
 
 const RoadmapHeader = () => {
+  const {currentUser} = useUserContext();
   const navigate = useNavigate();
 
   return (
@@ -17,10 +19,16 @@ const RoadmapHeader = () => {
         </button>
         <h1>Roadmap</h1>
       </div>
-      <button type="button" className="btn btn-purple btn-icon">
-        <HiPlusSm />
-        Add Feedback
-      </button>
+      {currentUser && (
+        <button 
+          type="button" 
+          className="btn btn-purple btn-icon"
+          onClick={() => navigate('/add-edit')}  
+        >
+          <HiPlusSm />
+          Add Feedback
+        </button>
+      )}
     </div>
   )
 }

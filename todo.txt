@@ -19,3 +19,10 @@ a da obrises nepotrebne I SVE TREBAJU DA PUCAJU NA / -> HOME
 
 -- vidi kako ces to da resis kada udjes na neku stranu i prikaze ti scroll na sredini
 mozes pitati chat gpt za resenje ovoga
+
+-- kada dodajes ili editujes feedback trebalo bi nakon tih akcija da 
+vrati korak unazad navigacija jer ako dodajes odes na home
+to i jeste cilj, a kada editujes odes na single starnu, samo ako ga brises
+mora otici na home jer vise nece postojati
+
+-- takodje unutar roadmapa zastiti add feedback button

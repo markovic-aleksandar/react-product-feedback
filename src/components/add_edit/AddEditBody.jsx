@@ -24,7 +24,7 @@ const AddEditBody = ({feedbackId, feedbacks}) => {
   }
 
   const handleOptionStatusClick = optionValue => {
-    handleDataValue(undefined, 'status', optionValue);
+    handleDataValue(undefined, 'status', optionValue.toLowerCase());
   }
 
   if (feedbackId && !currentFeedback) {

@@ -1,11 +1,16 @@
 import { useEffect, createContext, useContext, useReducer } from 'react';
 import { useUserContext } from '../context/user_context';
 import { v4 as uuidv4 } from 'uuid';
-import { 
+import {
+  doc,
   collection, 
   addDoc, 
   getDocs,
-  serverTimestamp 
+  updateDoc,
+  deleteDoc,
+  serverTimestamp,
+  query,
+  orderBy
 } from 'firebase/firestore';
 import { db } from '../firebase'; 
 import feedback_reducer from '../reducers/feedback_reducer';
@@ -45,7 +50,8 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.FETCH_BEGIN});
     try {
       const collectionRef = collection(db, 'feedbacks');
-      const feedbacksSnap = await getDocs(collectionRef);
+      const q = query(collectionRef, orderBy('created_at', 'desc'));
+      const feedbacksSnap = await getDocs(q);
       const feedbacks = feedbacksSnap.docs.map(doc => {
         return {...doc.data(), id: doc.id};
       });
@@ -97,13 +103,25 @@ const FeedbackProvider = ({children}) => {
   }
 
   // delete feedback
-  const deleteFeedback = id => {
+  const deleteFeedback = async id => {
+    const docRef = doc(db, 'feedbacks', id);
+    await deleteDoc(docRef);
     dispatch({type: actions.DELETE_FEEDBACK, payload: id});
   }
 
   // edit feedback
-  const editFeedback = (id, feedbackInfo) => {
-    dispatch({type: actions.EDIT_FEEDBACK, payload: {id, feedbackInfo}});
+  const editFeedback = async (id, feedbackData) => {
+    const {title, category, detail, status} = feedbackData;
+
+    const docRef = doc(db, 'feedbacks', id);
+    const currentFeedback = {
+      title: title.value,
+      category: category.value,
+      description: detail.value,
+      status: status.value
+    };
+    await updateDoc(docRef, currentFeedback);
+    dispatch({type: actions.EDIT_FEEDBACK, payload: {id, currentFeedback}});
   }
 
   // toggle feedback vote

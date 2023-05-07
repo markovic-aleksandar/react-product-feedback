@@ -21,18 +21,28 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path="single/:id" element={<SingleFeedback />} />
           <Route path="roadmap" element={<Roadmap />} />
-          <Route path="add-edit/:id?" element={
-            <ProtectedRoute isAuth={false}>
+          <Route path="add-edit" element={
+            <ProtectedRoute>
               <AddEditFeedback />
             </ProtectedRoute>} 
           />
+          <Route path="add-edit/:id" element={
+            <ProtectedRoute isEdit={true}>
+              <AddEditFeedback />
+            </ProtectedRoute>} 
+          />
+          {/* <Route path="add-edit/:id?" element={
+            <ProtectedRoute>
+              <AddEditFeedback />
+            </ProtectedRoute>} 
+          /> */}
           <Route path="auth" element={
             <ProtectedRoute isAuth={true}>
               <Auth />
             </ProtectedRoute>} 
           />
           <Route path="profile" element={
-            <ProtectedRoute isAuth={false}>
+            <ProtectedRoute>
               <Profile />          
             </ProtectedRoute>} 
           />

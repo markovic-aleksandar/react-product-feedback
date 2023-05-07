@@ -1,16 +1,25 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useUserContext } from '../context/user_context';
+import { useFeedbackContext } from '../context/feedback_context';
 import { Loading } from '../components';
 
-const ProtectedRoute = ({isAuth, children}) => {
-  const {currentUserLoading, currentUser} = useUserContext();  
+const ProtectedRoute = ({isAuth, isEdit, children}) => {
+  const {currentUserLoading, currentUser} = useUserContext();
+  const {feedbacksLoading, feedbacks} = useFeedbackContext();  
+  const params = useParams();
 
-  if (currentUserLoading) {
-    return <Loading />
+  if (currentUserLoading || feedbacksLoading) {
+    return <Loading />;
   }
 
   if (isAuth) {
     return currentUser ? <Navigate to="/" /> : children;
+  }
+
+  if (isEdit) {
+    const {id} = params;
+    const currentUserOwnedFeedack = feedbacks.find(feedback => feedback.id === id && feedback.user_ref === currentUser?.id);
+    return currentUserOwnedFeedack ? children : <Navigate to="/auth" />;
   }
 
   return currentUser ? children : <Navigate to="/auth" />;
