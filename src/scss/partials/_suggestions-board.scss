@@ -15,6 +15,7 @@
 
     @include breakpoint-up(large) {
         padding: 15px 20px;
+        height: 75px;
     }
 
     .holder-control {

@@ -8,7 +8,7 @@ const useValidate = enterData => {
     let value = enterValue !== undefined ? enterValue : e.target.value;
 
     // check for file type
-    if (e.currentTarget.files) {
+    if (e?.currentTarget.files) {
       value = e.currentTarget.files[0] ?? null;
     }
 

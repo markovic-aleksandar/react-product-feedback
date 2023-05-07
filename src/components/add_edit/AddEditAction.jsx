@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useFeedbackContext } from '../../context/feedback_context';
+import { handleErrorMessage } from '../../utils';
+import { toast } from 'react-toastify';
 
 const AddEditAction = ({feedbackId, inputData, validateData}) => {
   const {addFeedback, deleteFeedback, editFeedback} = useFeedbackContext();
@@ -9,17 +11,27 @@ const AddEditAction = ({feedbackId, inputData, validateData}) => {
     navigate('/');
   }
 
-  const handleAddEdit = () => {
-    const {title: {value: title}, category: {value: category}, detail: {value: detail}} = inputData;
+  // const handleAddEdit = () => {
+  //   const {title: {value: title}, category: {value: category}, detail: {value: detail}} = inputData;
 
-    const feedbackInfo = {
-      title,
-      category,
-      description: detail
-    };
+  //   const feedbackInfo = {
+  //     title,
+  //     category,
+  //     description: detail
+  //   };
 
-    !feedbackId ? addFeedback(feedbackInfo) : editFeedback(feedbackId, {...feedbackInfo, status: inputData.status.value});
-    goHome();
+  //   !feedbackId ? addFeedback(feedbackInfo) : editFeedback(feedbackId, {...feedbackInfo, status: inputData.status.value});
+  //   goHome();
+  // }
+
+  const handleAddEdit = async () => {
+    try {
+      !feedbackId ? await addFeedback(inputData) : null;
+      goHome();
+    }
+    catch(err) {
+      toast.error(handleErrorMessage(err.code));
+    }
   }
 
   const handleDelete = () => {

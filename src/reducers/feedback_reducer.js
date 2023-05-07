@@ -144,13 +144,7 @@ const feedback_reducer = (state, action) => {
   }
 
   if (action.type === actions.ADD_FEEDBACK) {
-    const feedbackObj = {
-      ...action.payload,
-      upvotes: 0,
-      status: 'suggestion'
-    };
-
-    return {...state, feedbacks: [...state.feedbacks, feedbackObj]};
+    return {...state, feedbacks: [...state.feedbacks, action.payload]};
   }
 
   if (action.type === actions.DELETE_FEEDBACK) {

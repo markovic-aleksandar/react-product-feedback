@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import CustomSelect from '../CustomSelect';
+import { useUserContext } from '../../context/user_context';
 import { useFeedbackContext } from '../../context/feedback_context';
 import { icons } from '../../constants';
 import { HiPlusSm } from 'react-icons/hi';
 
 const SuggestionsBoard = () => {
+  const {currentUser} = useUserContext();
   const {suggestedFeedbacks, currentSort, updateSort} = useFeedbackContext();
   const selectOptions = ['Most Upvotes', 'Least Upvotes', 'Most Comments', 'Least Comments'];
   const navigate = useNavigate();
@@ -31,10 +33,16 @@ const SuggestionsBoard = () => {
           />
         </div>
       </div>
-      <button type="button" className="btn btn-purple btn-icon" onClick={() => navigate('/add-edit')}>
-        <HiPlusSm />
-        Add Feedback
-      </button>
+      {currentUser && (
+        <button 
+          type="button" 
+          className="btn btn-purple btn-icon" 
+          onClick={() => navigate('/add-edit')}
+        >
+          <HiPlusSm />
+          Add Feedback
+        </button>
+      )}
     </div>
   )
 }

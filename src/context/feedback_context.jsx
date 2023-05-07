@@ -1,19 +1,22 @@
 import { useEffect, createContext, useContext, useReducer } from 'react';
-import axios from 'axios';
+import { useUserContext } from '../context/user_context';
 import { v4 as uuidv4 } from 'uuid';
-import { useUserContext } from './user_context';
+import { 
+  collection, 
+  addDoc, 
+  getDocs,
+  serverTimestamp 
+} from 'firebase/firestore';
+import { db } from '../firebase'; 
 import feedback_reducer from '../reducers/feedback_reducer';
 import * as actions from '../actions/feedback_action';
-import { getDataFromStorage } from '../utils';
-
-const API_URL = 'https://raw.githubusercontent.com/aebiz-aleksandar/api/main/feedbacks.json';
 
 const FeedbackContext = createContext();
 
 const initState = {
   feedbacksLoading: true,
   feedbacksError: false,
-  feedbacks: getDataFromStorage('feedbacks') ?? [],
+  feedbacks: [],
   suggestedFeedbacks: [],
   currentSort: 'Most Upvotes',
   currentCategory: 'all',
@@ -35,19 +38,20 @@ const initState = {
 
 const FeedbackProvider = ({children}) => {
   const [state, dispatch] = useReducer(feedback_reducer, initState);
-  const {currentUser} = useUserContext();  
+  const {currentUser} = useUserContext();
 
-  // get feedbacks from api
-  const fetchFeedback = async url => {
+  // get feedbacks
+  const fetchFeedback = async () => {
     dispatch({type: actions.FETCH_BEGIN});
     try {
-      const response = await axios(url);
-      const {data} = response;
-      
-      dispatch({type: actions.FETCH_SUCCESS, payload: data});
+      const collectionRef = collection(db, 'feedbacks');
+      const feedbacksSnap = await getDocs(collectionRef);
+      const feedbacks = feedbacksSnap.docs.map(doc => {
+        return {...doc.data(), id: doc.id};
+      });
+      dispatch({type: actions.FETCH_SUCCESS, payload: feedbacks});
     }
     catch(err) {
-      dispatch({type: actions.FETCH_ERROR});
       console.log(err);
     }
   }
@@ -75,9 +79,21 @@ const FeedbackProvider = ({children}) => {
   }
 
   // add feedback
-  const addFeedback = feedbackInfo => {
-    const feedbackId = uuidv4();
-    dispatch({type: actions.ADD_FEEDBACK, payload: {...feedbackInfo, id: feedbackId}});
+  const addFeedback = async feedbackData => {
+    const {title, category, detail} = feedbackData;
+    const collectionRef = collection(db, 'feedbacks');
+    const currentFeedback = {
+      user_ref: currentUser.id,
+      title: title.value,
+      category: category.value,
+      upvotes: 0,
+      status: 'suggestion',
+      description: detail.value,
+      comment_count: 0,
+      created_at: serverTimestamp() 
+    };
+    const {id: createdFeedbackId} = await addDoc(collectionRef, currentFeedback);
+    dispatch({type: actions.ADD_FEEDBACK, payload: {...currentFeedback, id: createdFeedbackId}});
   }
 
   // delete feedback
@@ -96,11 +112,7 @@ const FeedbackProvider = ({children}) => {
   }
 
   useEffect(() => {
-    if (!getDataFromStorage('feedbacks')) {
-      fetchFeedback(API_URL);
-    } else {        
-      dispatch({type: actions.FETCH_SUCCESS, payload: getDataFromStorage('feedbacks')})
-    }
+    fetchFeedback();
   }, []);
 
   useEffect(() => {
@@ -108,7 +120,6 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.FILTER_FEEDBACKS});
     dispatch({type: actions.SORT_FEEDBACKS});
     
-    localStorage.setItem('feedbacks', JSON.stringify(state.feedbacks));
   }, [state.feedbacks, state.currentCategory, state.currentSort]);
 
   return (
