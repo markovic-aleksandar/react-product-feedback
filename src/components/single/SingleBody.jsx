@@ -12,11 +12,11 @@ const SingleBody = ({currentID}) => {
     return <Message message="This feedback is non-existing." />
   }
   
-  const comments = currentFeedback.comments ? currentFeedback.comments : [];
+  // const comments = currentFeedback.comments ? currentFeedback.comments : [];
   return (
     <>
       <Feedback {...currentFeedback} />
-      <Comments feedbackId={currentID} comments={comments} />
+      <Comments feedbackId={currentID} />
       <AddComment feedbackId={currentID} />
     </>
   )

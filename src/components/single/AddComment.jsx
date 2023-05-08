@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useFeedbackContext } from "../../context/feedback_context";
+import { useCommentContext } from '../../context/comment_context';
 import useValidate from '../../hooks/useValidate';
+import { handleErrorMessage } from '../../utils';
+import { toast } from 'react-toastify';
 
 const AddComment = ({feedbackId}) => {
   const {inputData, handleDataValue, validateData, resetData} = useValidate({comment: {value: '', error: false}});
-  const {addComment} = useFeedbackContext();
+  const {addComment} = useCommentContext();
   const [characterLeft, setCharacterLeft] = useState(0);
 
   const handleInputValue = e => {
@@ -18,13 +20,14 @@ const AddComment = ({feedbackId}) => {
     handleDataValue(undefined, name, value);
   }
 
-  const postComment = () => {
-    const commentInfo = {
-      feedbackId,
-      content: inputData.comment.value
-    };
-    addComment(commentInfo);
-    resetData();
+  const postComment = async () => {
+    try {
+      addComment(feedbackId, inputData);
+      resetData();
+    }
+    catch(err) {
+      toast.error(handleErrorMessage(err.code));
+    }
   }
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const AddComment = ({feedbackId}) => {
             value={inputData.comment.value}
             onChange={handleInputValue}
           ></textarea>
-          {inputData.comment.error && <span className="form-control-error">The field can't be empty!</span>}
+          {inputData.comment.error && <span className="form-control-error">{inputData.comment.error}</span>}
         </div>
         <div>
           {characterLeft < 250 ? 

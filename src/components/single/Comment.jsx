@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useFeedbackContext } from '../../context/feedback_context';
 import useValidate from '../../hooks/useValidate';
-import { getUserImages } from "../../utils";
+import userAvatar from '../../assets/user-images/image-user.jpg';
 
-const Comment = ({id, parentId, content, user:{image, name, username}, replyingTo, feedbackId}) => {
-  const [userImages, setUserImages] = useState(null);
+const Comment = ({id, parentId, content, user_ref:{avatar, name}, replyingTo, feedbackId}) => {
   const [commentReply, setCommentReply] = useState(false);
   const {addReplyComment} = useFeedbackContext();
   const {inputData, handleDataValue, validateData, resetData} = useValidate({comment: {value: '', error: false}});
@@ -21,21 +20,15 @@ const Comment = ({id, parentId, content, user:{image, name, username}, replyingT
     resetData();
   }
 
-  useEffect(() => {
-    getUserImages(import.meta.glob('../../assets/user-images/*'))
-    .then(response => setUserImages(response));
-  }, []);
-
   return (
     <div className="comment">
       <div className="comment-user-reply">
         <div className="user-pic">
-          {userImages && <img src={userImages[image]} alt={name} />}
+          <img src={avatar ? avatar : userAvatar} alt={name} />
         </div>
         <div className="user-info-reply">
           <div>
             <h4>{name}</h4>
-            <p>@{username}</p>
           </div>
           <button 
             type="button" 
