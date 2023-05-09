@@ -16,6 +16,7 @@ const Comments = ({feedbackId}) => {
               return <Comment 
                 key={reply.id}
                 feedbackId={feedbackId}
+                parentId={id}
                 {...reply} 
               />
             })}

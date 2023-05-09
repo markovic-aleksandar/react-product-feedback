@@ -3,7 +3,7 @@ import { useFeedbackContext } from '../context/feedback_context';
 import { HiChevronUp } from 'react-icons/hi';
 import { icons } from '../constants';
 
-const Feedback = ({id, title, category, status, upvotes, description, comments, statusColor, handleFeedbackAction}) => {
+const Feedback = ({id, title, category, status, upvotes, description, comment_count, statusColor, handleFeedbackAction}) => {
   const {votedFeedbacks, toggleVote} = useUserContext();
   const {toggleFeedbackVote} = useFeedbackContext();
   const feedbackIsVoted = votedFeedbacks.includes(id);
@@ -38,7 +38,7 @@ const Feedback = ({id, title, category, status, upvotes, description, comments, 
         </button>
         <span className="comment-count">
           <img src={icons.iconComments} alt="comment" />
-          {comments ? comments.length : 0}
+          {comment_count}
         </span>
       </div>
     </article>

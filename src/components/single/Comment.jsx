@@ -1,23 +1,31 @@
 import { useState } from 'react';
-import { useFeedbackContext } from '../../context/feedback_context';
+import { useUserContext } from '../../context/user_context';
+import { useCommentContext } from '../../context/comment_context';
 import useValidate from '../../hooks/useValidate';
+import { handleErrorMessage } from '../../utils';
+import { toast } from 'react-toastify';
 import userAvatar from '../../assets/user-images/image-user.jpg';
 
-const Comment = ({id, parentId, content, user_ref:{avatar, name}, replyingTo, feedbackId}) => {
+const Comment = ({parentId, id, content, user_ref:{avatar, name}, replyingTo}) => {
   const [commentReply, setCommentReply] = useState(false);
-  const {addReplyComment} = useFeedbackContext();
+  const {currentUser} = useUserContext();
+  const {addReplyComment} = useCommentContext();
   const {inputData, handleDataValue, validateData, resetData} = useValidate({comment: {value: '', error: false}});
 
-  const postReplyComment = () => {
-    const commentInfo = {
-      feedbackId,
-      parentId: parentId || id,
-      content: inputData.comment.value,
-      replyingTo: username
-    };
-    addReplyComment(commentInfo);
-    setCommentReply(false);
-    resetData();
+  const postReplyComment = async () => {
+    try {
+      const commentData = {
+        content: inputData.comment.value,
+        parentId: parentId ?? id,
+        replyingTo: name
+      }
+      await addReplyComment(commentData);
+      setCommentReply(false);
+      resetData();
+    }
+    catch(err) {
+      toast.error(handleErrorMessage(err.code));
+    }
   }
 
   return (
@@ -30,20 +38,22 @@ const Comment = ({id, parentId, content, user_ref:{avatar, name}, replyingTo, fe
           <div>
             <h4>{name}</h4>
           </div>
-          <button 
-            type="button" 
-            className="btn-reply" 
-            onClick={() => setCommentReply(!commentReply)}
-          >
-            Reply
-          </button>
+          {currentUser && (
+            <button 
+              type="button" 
+              className="btn-reply" 
+              onClick={() => setCommentReply(!commentReply)}
+            >
+              Reply
+            </button>
+          )}
         </div>
       </div>
       <p className="comment-content">
         {replyingTo && <span className="content-reply">{replyingTo} </span>}
         {content}
       </p>
-      {commentReply && <div className="comment-add-reply">
+      {currentUser && commentReply && <div className="comment-add-reply">
         <div className={`form-group${inputData.comment.error ? ' has-error' : ''}`}>
           <textarea 
             name="comment"

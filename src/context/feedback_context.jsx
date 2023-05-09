@@ -1,6 +1,5 @@
 import { useEffect, createContext, useContext, useReducer } from 'react';
 import { useUserContext } from '../context/user_context';
-import { v4 as uuidv4 } from 'uuid';
 import {
   doc,
   collection, 
@@ -72,18 +71,6 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.UPDATE_SORT, payload: status});
   }
 
-  // add reply comment
-  const addReplyComment = commentInfo => {       
-    const commentId = uuidv4();
-    dispatch({type: actions.ADD_REPLY_COMMENT, payload: {...commentInfo, commentId, currentUser}});
-  }
-
-  // add comment
-  const addComment = commentInfo => {
-    const commentId = uuidv4();
-    dispatch({type: actions.ADD_COMMENT, payload: {...commentInfo, commentId, currentUser}});
-  }
-
   // add feedback
   const addFeedback = async feedbackData => {
     const {title, category, detail} = feedbackData;
@@ -124,6 +111,17 @@ const FeedbackProvider = ({children}) => {
     dispatch({type: actions.EDIT_FEEDBACK, payload: {id, currentFeedback}});
   }
 
+  // increment feedback comment count
+  const incFeedbackCommentCount = async feedbackId => {
+    const docRef = doc(db, 'feedbacks', feedbackId);
+    const feedback = state.feedbacks.find(feedback => feedback.id === feedbackId);
+    const feedbackCommentCount = parseInt(feedback.comment_count) + 1;
+    await updateDoc(docRef, {
+      comment_count: feedbackCommentCount
+    });
+    dispatch({type: actions.COMMENT_COUNT, payload: {id: feedbackId, comment_count: feedbackCommentCount}});
+  }
+
   // toggle feedback vote
   const toggleFeedbackVote = (id, toggleAmount) => {
     dispatch({type: actions.TOGGLE_FEEDBACK_VOTE, payload: {id, toggleAmount}});
@@ -145,11 +143,10 @@ const FeedbackProvider = ({children}) => {
       ...state,
       updateFilter,
       updateSort,
-      addReplyComment,
-      addComment,
       addFeedback,
       deleteFeedback,
       editFeedback,
+      incFeedbackCommentCount,
       toggleFeedbackVote
     }}>
       {children}

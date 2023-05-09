@@ -71,76 +71,16 @@ const feedback_reducer = (state, action) => {
         sortedFeedbacks = sortedFeedbacks.sort((a, b) => a.upvotes - b.upvotes);
         break;
       case 'Most Comments':
-        sortedFeedbacks = sortedFeedbacks.sort((a, b) => (b.comments ? b.comments.length : 0) - (a.comments ? a.comments.length : 0));
+        sortedFeedbacks = sortedFeedbacks.sort((a, b) => b.comment_count - a.comment_count);
         break;
       case 'Least Comments':
-        sortedFeedbacks = sortedFeedbacks.sort((a, b) => (a.comments ? a.comments.length : 0) - (b.comments ? b.comments.length : 0));
+        sortedFeedbacks = sortedFeedbacks.sort((a, b) => a.comment_count - b.comment_count);
         break;
       default:
         break;
     }
 
     return {...state, suggestedFeedbacks: sortedFeedbacks};
-  }
-
-  if (action.type === actions.ADD_REPLY_COMMENT) {
-    const {
-      feedbackId,
-      parentId,
-      content,
-      replyingTo,
-      commentId,
-      currentUser
-    } = action.payload;
-
-    const commentObj = {
-      id: commentId,
-      parentId,
-      content,
-      replyingTo,
-      user: currentUser
-    };
-    
-    const tempFeedbacks = state.feedbacks.map(feedback => {
-      if (feedback.id === feedbackId) {
-        const comments = feedback.comments.map(comment => {
-          if (comment.id === parentId) {
-            const replies = comment.replies ? [...comment.replies, commentObj] : [commentObj];
-            return {...comment, replies};
-          }
-          return comment;
-        });
-        return {...feedback, comments};
-      }
-      return feedback;
-    });
-
-    return {...state, feedbacks: tempFeedbacks};
-  }
-
-  if (action.type === actions.ADD_COMMENT) {
-    const {
-      feedbackId,
-      content,
-      commentId,
-      currentUser
-    } = action.payload;
-
-    const commentObj = {
-      id: commentId,
-      content,
-      user: currentUser
-    };
-
-    const tempFeedbacks = state.feedbacks.map(feedback => {
-      if (feedback.id === feedbackId) {
-        const comments = feedback.comments ? [...feedback.comments, commentObj] : [commentObj];
-        return {...feedback, comments};
-      }
-      return feedback;
-    });
-
-    return {...state, feedbacks: tempFeedbacks};
   }
 
   if (action.type === actions.ADD_FEEDBACK) {
@@ -164,6 +104,18 @@ const feedback_reducer = (state, action) => {
     });
 
     return {...state, feedbacks: tempFeedbacks};
+  }
+
+  if (action.type === actions.COMMENT_COUNT) {
+    const {id, comment_count} = action.payload;
+    const feedbacks = state.feedbacks.map(feedback => {
+      if (feedback.id === id) {
+        return {...feedback, comment_count};
+      }
+      return feedback;
+    });
+
+    return {...state, feedbacks};
   }
 
   if (action.type === actions.TOGGLE_FEEDBACK_VOTE) {
