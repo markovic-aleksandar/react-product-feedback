@@ -6,7 +6,7 @@ import { handleErrorMessage } from '../../utils';
 import { toast } from 'react-toastify';
 import userAvatar from '../../assets/user-images/image-user.jpg';
 
-const Comment = ({parentId, id, content, user_ref:{avatar, name}, replyingTo}) => {
+const Comment = ({parentId, id, content, user_ref:{id: userId, avatar, name}, replyingTo}) => {
   const [commentReply, setCommentReply] = useState(false);
   const {currentUser} = useUserContext();
   const {addReplyComment} = useCommentContext();
@@ -38,7 +38,7 @@ const Comment = ({parentId, id, content, user_ref:{avatar, name}, replyingTo}) =
           <div>
             <h4>{name}</h4>
           </div>
-          {currentUser && (
+          {currentUser && currentUser.id !== userId && (
             <button 
               type="button" 
               className="btn-reply" 
@@ -50,10 +50,10 @@ const Comment = ({parentId, id, content, user_ref:{avatar, name}, replyingTo}) =
         </div>
       </div>
       <p className="comment-content">
-        {replyingTo && <span className="content-reply">{replyingTo} </span>}
+        {replyingTo && <span className="content-reply">@{replyingTo} </span>}
         {content}
       </p>
-      {currentUser && commentReply && <div className="comment-add-reply">
+      {currentUser && currentUser.id !== userId && commentReply && <div className="comment-add-reply">
         <div className={`form-group${inputData.comment.error ? ' has-error' : ''}`}>
           <textarea 
             name="comment"

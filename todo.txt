@@ -25,4 +25,4 @@ vrati korak unazad navigacija jer ako dodajes odes na home
 to i jeste cilj, a kada editujes odes na single starnu, samo ako ga brises
 mora otici na home jer vise nece postojati
 
--- takodje unutar roadmapa zastiti add feedback button
+-- vote odradi (ako nisi ulogovan vote takoje ne mozes da odradis)

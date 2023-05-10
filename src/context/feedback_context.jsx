@@ -7,8 +7,10 @@ import {
   getDocs,
   updateDoc,
   deleteDoc,
+  writeBatch,
   serverTimestamp,
   query,
+  where,
   orderBy
 } from 'firebase/firestore';
 import { db } from '../firebase'; 
@@ -92,7 +94,18 @@ const FeedbackProvider = ({children}) => {
   // delete feedback
   const deleteFeedback = async id => {
     const docRef = doc(db, 'feedbacks', id);
+    const collectionRef = collection(db, 'comments');
+    const q = query(collectionRef, where('feedback_ref', '==', id));
+    const commentsForDelete = await getDocs(q);
+
     await deleteDoc(docRef);
+
+    if (commentsForDelete.size > 0) {
+      const batch = writeBatch(db);
+      commentsForDelete.forEach(comment => batch.delete(comment.ref));
+      await batch.commit();
+    }
+    
     dispatch({type: actions.DELETE_FEEDBACK, payload: id});
   }
 

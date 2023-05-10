@@ -11,19 +11,6 @@ const AddEditAction = ({feedbackId, inputData, validateData}) => {
     navigate('/');
   }
 
-  // const handleAddEdit = () => {
-  //   const {title: {value: title}, category: {value: category}, detail: {value: detail}} = inputData;
-
-  //   const feedbackInfo = {
-  //     title,
-  //     category,
-  //     description: detail
-  //   };
-
-  //   !feedbackId ? addFeedback(feedbackInfo) : editFeedback(feedbackId, {...feedbackInfo, status: inputData.status.value});
-  //   goHome();
-  // }
-
   const handleAddEdit = async () => {
     try {
       !feedbackId ? await addFeedback(inputData) : await editFeedback(feedbackId, inputData);
@@ -37,7 +24,7 @@ const AddEditAction = ({feedbackId, inputData, validateData}) => {
   const handleDelete = async () => {
     try {
       await deleteFeedback(feedbackId);
-      goHome();
+      // goHome();
     }
     catch(err) {
       toast.error(handleErrorMessage(err.code));
