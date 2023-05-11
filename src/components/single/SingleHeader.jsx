@@ -14,7 +14,7 @@ const SingleHeader = ({currentID}) => {
       <button 
         type="button" 
         className="btn-back"
-        onClick={() => navigate('/')}  
+        onClick={() => navigate('/')} 
       >
         <HiChevronLeft />
         Go Back

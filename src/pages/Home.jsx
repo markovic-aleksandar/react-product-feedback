@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { 
   GradientBoard, 
   CategoryBoard,
@@ -7,6 +8,12 @@ import {
 } from '../components';
 
 const Home = () => {
+
+  // reset scroll to top
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <aside className="app-container-side">

@@ -24,7 +24,7 @@ const AddEditAction = ({feedbackId, inputData, validateData}) => {
   const handleDelete = async () => {
     try {
       await deleteFeedback(feedbackId);
-      // goHome();
+      goHome();
     }
     catch(err) {
       toast.error(handleErrorMessage(err.code));

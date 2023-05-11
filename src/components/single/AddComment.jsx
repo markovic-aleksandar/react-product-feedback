@@ -24,6 +24,7 @@ const AddComment = ({feedbackId}) => {
     try {
       addComment(feedbackId, inputData);
       resetData();
+      window.scrollTo(0, 0);
     }
     catch(err) {
       toast.error(handleErrorMessage(err.code));
@@ -58,7 +59,11 @@ const AddComment = ({feedbackId}) => {
               Reached the character limit
             </p>
           }
-          <button type="button" className="btn btn-purple" onClick={() => validateData(postComment)}>Post Comment</button>
+          <button 
+            type="button" 
+            className="btn btn-purple" 
+            onClick={() => validateData(postComment)}
+          >Post Comment</button>
         </div>
       </form>
     </div>

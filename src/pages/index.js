@@ -5,6 +5,7 @@ import AddEditFeedback from './AddEditFeedback';
 import Auth from './Auth';
 import Profile from './Profile';
 import ProtectedRoute from './ProtectedRoute';
+import NoRoute from './NoRoute';
 
 export {
   Home,
@@ -13,5 +14,6 @@ export {
   AddEditFeedback,
   Auth,
   Profile,
-  ProtectedRoute
+  ProtectedRoute,
+  NoRoute
 }

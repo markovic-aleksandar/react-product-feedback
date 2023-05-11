@@ -1,6 +1,5 @@
 export const FETCH_BEGIN = 'FETCH_BEGIN';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
-export const FETCH_ERROR = 'FETCH_ERROR';
 export const UPDATE_STATUSES = 'UPDATE_STATUSES';
 export const UPDATE_FITLER = 'UPDATE_FITLER';
 export const UPDATE_SORT = 'UPDATE_SORT';

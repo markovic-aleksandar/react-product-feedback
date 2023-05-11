@@ -15,14 +15,6 @@ const feedback_reducer = (state, action) => {
     }
   }
 
-  if (action.type === actions.FETCH_ERROR) {
-    return {
-      ...state,
-      feedbacksLoading: false,
-      feedbacksError: true
-    }
-  }
-
   if (action.type === actions.UPDATE_STATUSES) {
     let {statuses, feedbacks} = state;
     const availableStatuses = feedbacks.reduce((total, item) => {

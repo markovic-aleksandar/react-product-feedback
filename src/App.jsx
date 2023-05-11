@@ -6,7 +6,8 @@ import {
   AddEditFeedback, 
   Auth, 
   Profile,
-  ProtectedRoute
+  ProtectedRoute,
+  NoRoute
 } from './pages';
 import { ToastContainer } from 'react-toastify';
 
@@ -31,11 +32,6 @@ const App = () => {
               <AddEditFeedback />
             </ProtectedRoute>} 
           />
-          {/* <Route path="add-edit/:id?" element={
-            <ProtectedRoute>
-              <AddEditFeedback />
-            </ProtectedRoute>} 
-          /> */}
           <Route path="auth" element={
             <ProtectedRoute isAuth={true}>
               <Auth />
@@ -46,6 +42,7 @@ const App = () => {
               <Profile />          
             </ProtectedRoute>} 
           />
+          <Route path="*" element={<NoRoute />} />
         </Route>
       </Routes>
       <ToastContainer 

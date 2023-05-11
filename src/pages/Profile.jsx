@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../context/user_context';
 import useValidate from '../hooks/useValidate';
 import { showSelectedAvatar, handleErrorMessage } from '../utils';
-import { GoBack } from '../components';
 import { toast } from 'react-toastify';
+import { HiChevronLeft } from 'react-icons/hi';
 import { FaExchangeAlt } from 'react-icons/fa';
 import userAvatar from '../assets/user-images/image-user.jpg';
 
@@ -55,7 +55,16 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <GoBack />
+      <div className="container-header">
+        <button
+          type="button"
+          className="btn-back"
+          onClick={() => navigate('/')}
+        >
+          <HiChevronLeft />
+          Go Back
+        </button>
+      </div>
       <div className="container-holder">
         <div className="profile-image">
           <img src={avatar || userAvatar} alt="user avatar" ref={avatarRef} />
