@@ -22,19 +22,13 @@ import user_reducer from '../reducers/user_reducer';
 import * as actions from '../actions/user_action';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
-import { getDataFromStorage, handleErrorMessage } from '../utils';
+import { handleErrorMessage } from '../utils';
 
 const UserContext = createContext();
 
 const initState = {
-  // currentUser: {
-  //   image: 'image-user',
-  //   name: 'John Doe',
-  //   username: 'john.doe'
-  // },
   currentUserLoading: true,
-  currentUser: null,
-  votedFeedbacks: getDataFromStorage('votedFeedbacks') ?? []
+  currentUser: null
 }
 
 const UserProvider = ({children}) => {
@@ -61,6 +55,7 @@ const UserProvider = ({children}) => {
           name: name.value,
           email: email.value,
           avatar: avatarValue,
+          votedFeedbacks: [],
           created_at: serverTimestamp()
         };
         await setDoc(docRef, userObj);
@@ -70,6 +65,7 @@ const UserProvider = ({children}) => {
         name: name.value,
         email: email.value,
         avatar: null,
+        votedFeedbacks: [],
         created_at: serverTimestamp()
       });
     }
@@ -124,13 +120,17 @@ const UserProvider = ({children}) => {
     })
   }
 
-  const toggleVote = id => {
-    dispatch({type: actions.TOGGLE_VOTES, payload: id});
-  }
+  const toggleVote = async id => {
+    let {id: userId, voted_feedbacks} = state.currentUser;
+    voted_feedbacks = voted_feedbacks.includes(id) ?
+    voted_feedbacks.filter(voted_feedback => voted_feedback !== id) : [...voted_feedbacks, id];
+    const docRef = doc(db, 'users', userId);
+    await updateDoc(docRef, {
+      voted_feedbacks
+    });
 
-  useEffect(() => {
-    localStorage.setItem('votedFeedbacks', JSON.stringify(state.votedFeedbacks));
-  }, [state.votedFeedbacks]);
+    dispatch({type: actions.TOGGLE_VOTES, payload: voted_feedbacks});
+  }
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, user => {

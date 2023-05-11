@@ -1,15 +1,12 @@
 - error takdke unutar feedbacks container-a
 
-- add feedback ne radi sa roadmap-a
 - da kreiras jednu posebnu componentu za sve ove '< go back' i svuda da primenis,
 a da obrises nepotrebne I SVE TREBAJU DA PUCAJU NA / -> HOME
 
 
 ==========================================================================
 ***
-- ukloni locale storage
-- proveri f-je unutar index utils-a i obirisi nepotrebne
-- promeni toast poruke na nekim mestima
+--- promeni toast poruke na nekim mestima
 
 ***********
 -- Rule-ovi za firestore i storage
@@ -24,5 +21,3 @@ mozes pitati chat gpt za resenje ovoga
 vrati korak unazad navigacija jer ako dodajes odes na home
 to i jeste cilj, a kada editujes odes na single starnu, samo ako ga brises
 mora otici na home jer vise nece postojati
-
--- vote odradi (ako nisi ulogovan vote takoje ne mozes da odradis)

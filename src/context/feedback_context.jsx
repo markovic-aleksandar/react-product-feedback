@@ -136,8 +136,15 @@ const FeedbackProvider = ({children}) => {
   }
 
   // toggle feedback vote
-  const toggleFeedbackVote = (id, toggleAmount) => {
-    dispatch({type: actions.TOGGLE_FEEDBACK_VOTE, payload: {id, toggleAmount}});
+  const toggleFeedbackVote = async (id, toggleAmount) => {
+    const {upvotes: feedbackVotes} = state.feedbacks.find(feedback => feedback.id === id);
+    const feedbackVoteValue = parseInt(feedbackVotes) + toggleAmount;
+    const docRef = doc(db, 'feedbacks', id);
+    await updateDoc(docRef, {
+      upvotes: feedbackVoteValue
+    });
+
+    dispatch({type: actions.TOGGLE_FEEDBACK_VOTE, payload: {id, upvotes: feedbackVoteValue}});
   }
 
   useEffect(() => {

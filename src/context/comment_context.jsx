@@ -5,13 +5,11 @@ import {
   doc,
   collection,
   getDocs,
-  getDoc,
   addDoc,
   updateDoc,
   query, 
   where, 
   orderBy,
-  arrayUnion,
   serverTimestamp
 } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -19,12 +17,11 @@ import { useUserContext } from './user_context';
 import { useFeedbackContext } from './feedback_context';
 import { v4 as uuidv4 } from 'uuid';
 
-
 const CommentContext = createContext();
 
 const initState = {
   commentsLoading: false,
-  comments: [],
+  comments: []
 }
 
 const CommentProvider = ({children}) => {
@@ -112,4 +109,3 @@ const useCommentContext = () => {
 }
 
 export { CommentProvider, useCommentContext };
-
