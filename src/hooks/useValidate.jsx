@@ -21,8 +21,7 @@ const useValidate = enterData => {
 
     for (let data in inputData) {
       const value = inputData[data].value;
-
-      if (!value && !data.includes('avatar')) {
+      if (!data.includes('avatar') && !value.trim()) {
         tempData[data] = {...inputData[data], error: 'The field can\'t be empty!'};
         errors ++;
       } else if (data.includes('email')) {

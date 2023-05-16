@@ -55,7 +55,7 @@ const UserProvider = ({children}) => {
           name: name.value,
           email: email.value,
           avatar: avatarValue,
-          votedFeedbacks: [],
+          voted_feedbacks: [],
           created_at: serverTimestamp()
         };
         await setDoc(docRef, userObj);
@@ -65,7 +65,7 @@ const UserProvider = ({children}) => {
         name: name.value,
         email: email.value,
         avatar: null,
-        votedFeedbacks: [],
+        voted_feedbacks: [],
         created_at: serverTimestamp()
       });
     }

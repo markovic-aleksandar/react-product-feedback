@@ -2,4 +2,5 @@
 
 ***********
 -- Rule-ovi za firestore i storage
-------- TREBA DA PRODJES KROZ SVE PONOVO
+------- TREBA DA PRODJES KROZ SVE PONOVO I TOM PRILIKOM PISI COMMENT-E GDE JE
+TO POTREBNO
