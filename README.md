@@ -72,5 +72,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-- **GitHub:** [markovic-aleksandar](https://github.com/markovic-aleksandar)
-- **LinkedIn:** [Your LinkedIn Profile](https://www.linkedin.com/in/aleksandar-markovic-691882203/)
+- **GitHub:** [Aleksandar Markovic](https://github.com/markovic-aleksandar)
+- **LinkedIn:** [Aleksandar Markovic](https://www.linkedin.com/in/aleksandar-markovic-691882203/)
