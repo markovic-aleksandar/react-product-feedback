@@ -4,7 +4,7 @@ import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyATGAcf445mTsEINUfwiWhpCbFSJ7YMEPs",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: "feedback-app-abf4d.firebaseapp.com",
   projectId: "feedback-app-abf4d",
   storageBucket: "feedback-app-abf4d.appspot.com",
